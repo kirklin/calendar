@@ -1,0 +1,61 @@
+{
+  "name": "calendar",
+  "version": "0.0.1",
+  "private": true,
+  "packageManager": "pnpm@7.11.0",
+  "description": "calendar",
+  "keywords": [
+    "calendar",
+    "viteBoot",
+    "vite-boot",
+    "vite",
+    "tailwindcss",
+    "fast",
+    "boot"
+  ],
+  "main": "src/main.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "vue-tsc --noEmit",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@vueuse/core": "^9.1.1",
+    "daisyui": "^2.24.2",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.0.18",
+    "sass": "^1.54.8",
+    "theme-change": "^2.2.0",
+    "vue": "^3.2.38",
+    "vue-router": "^4.1.5"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@kirklin/eslint-config": "^0.1.2",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/line-clamp": "^0.4.2",
+    "@tailwindcss/typography": "^0.5.7",
+    "@types/nprogress": "^0.2.0",
+    "@typescript-eslint/parser": "^5.29.0",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "autoprefixer": "^10.4.7",
+    "eslint": "^8.23.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "pnpm": "^7.11.0",
+    "postcss": "^8.4.16",
+    "tailwindcss": "^3.1.8",
+    "typescript": "^4.8.0",
+    "vite": "^3.1.0",
+    "vue-tsc": "^0.40.7"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,vue,js,jsx}": "eslint --cache --fix"
+  }
+}
