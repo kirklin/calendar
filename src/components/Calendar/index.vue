@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import BlankCell from "./components/Cell/BlankCell.vue";
-import EventsCell from "./components/Cell/EventsCell.vue";
+import EventsMonthCell from "./components/Cell/EventsCell/EventsMonthCell.vue";
 import Lang from "./i18n/lang.js";
 const month = ref(1);
 const year = ref(2022);
@@ -53,7 +53,7 @@ onMounted(() => {
         <!-- Left: Title -->
         <div class="mb-4 h-3:mb-0">
           <h1 class="text-2xl tracking-normal md:text-3xl text-slate-800 font-bold">
-            <span>{{ `${monthNames[month]} ${year}` }}</span> ✨
+            <span>{{ `${year} ${monthNames[month]}` }}</span> ✨
           </h1>
         </div>
 
@@ -138,7 +138,7 @@ onMounted(() => {
                shadow
                transition transition-colors"
               >
-                <div class="w-1 h-3 ho flex-shrink-0" />
+                <div class="w-1 h-3 bg-indigo-400 flex-shrink-0" />
                 <span class="ml-1">Reservations</span>
               </button>
             </li>
@@ -237,7 +237,7 @@ onMounted(() => {
 
           <!-- Days w-px the current month -->
           <template v-for="(day, dayIndex) in daysInMonth" :key="dayIndex">
-            <EventsCell :month="month" :year="year" :day="day" />
+            <EventsMonthCell :month="month" :year="year" :day="day" />
           </template>
 
           <!-- Empty cells (next month) -->
