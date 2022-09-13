@@ -41,9 +41,9 @@ const isToday = (date: number) => {
         <template v-for="event in getEvents(day)" :key="event.eventName">
           <CellEvent :data="event" />
         </template>
-        <div class="absolute bottom-0 left-0 right-0 h-4 pl pp pj pointer-events-none" aria-hidden="true" />
+        <div class="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white pointer-events-none" aria-hidden="true" />
       </div>
-      <!-- Cell footer -->
+      <!-- Month Cell footer -->
       <div class="flex justify-between items-center p-px p-1">
         <!-- More button (if more than 2 events) -->
         <template v-if="getEvents(day).length > 2">
@@ -59,15 +59,4 @@ const isToday = (date: number) => {
 </template>
 
 <style scoped>
-.pj {
-  --tw-gradient-to: transparent;
-}
-.pp {
-  --tw-gradient-from: #fff;
-  --tw-gradient-to: rgb(255 255 255 / 0);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-.pl {
-  background-image: linear-gradient(to top, var(--tw-gradient-stops));
-}
 </style>

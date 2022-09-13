@@ -87,7 +87,7 @@ onMounted(() => {
             </svg>
           </button>
 
-          <hr class="w-px h-full hu mx-1">
+          <hr class="w-px h-full bg-gray-200 mx-1">
 
           <!-- Create event button -->
           <button
@@ -116,7 +116,7 @@ onMounted(() => {
                shadow
                transition transition-colors"
               >
-                <div class="w-1 h-3 hv flex-shrink-0" />
+                <div class="w-1 h-3 bg-sky-400 flex-shrink-0" />
                 <span class="ml-1">Acme Inc.</span>
               </button>
             </li>
@@ -127,7 +127,7 @@ onMounted(() => {
                shadow
                transition transition-colors"
               >
-                <div class="w-1 h-3 hd flex-shrink-0" />
+                <div class="w-1 h-3 bg-green-400 flex-shrink-0" />
                 <span class="ml-1">Life &amp; Family</span>
               </button>
             </li>
@@ -149,7 +149,7 @@ onMounted(() => {
                shadow
                transition transition-colors"
               >
-                <div class="w-1 h-3 hg flex-shrink-0" />
+                <div class="w-1 h-3 bg-red-400 flex-shrink-0" />
                 <span class="ml-1">Events</span>
               </button>
             </li>
@@ -160,7 +160,7 @@ onMounted(() => {
                shadow
                transition transition-colors"
               >
-                <div class="w-1 h-3 hy flex-shrink-0" />
+                <div class="w-1 h-3 bg-orange-400 flex-shrink-0" />
                 <span class="ml-1">Misc</span>
               </button>
             </li>
@@ -223,12 +223,12 @@ onMounted(() => {
         </div>
 
         <!--        Day cells -->
-        <div class="grid grid-cols-7 gap-px hu">
+        <div class="grid grid-cols-7 gap-px bg-gray-200">
           <!-- Diagonal stripes pattern -->
           <svg class="sr-only">
             <defs>
               <pattern id="stripes" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(135)">
-                <line class="stroke-current gj opacity-50" x1="0" relative="0" x2="0" y2="5" stroke-width="2" />
+                <line class="stroke-current text-gray-200  opacity-50" x1="0" relative="0" x2="0" y2="5" stroke-width="2" />
               </pattern>
             </defs>
           </svg>
@@ -249,37 +249,4 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.hu {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity))
-}
-
-.hd {
-  --tw-bg-opacity: 1;
-  background-color: rgb(16 185 129 / var(--tw-bg-opacity))
-}
-
-.hv {
-  --tw-bg-opacity: 1;
-  background-color: rgb(14 165 233 / var(--tw-bg-opacity))
-}
-
-.hg {
-  --tw-bg-opacity: 1;
-  background-color: rgb(251 113 133 / var(--tw-bg-opacity))
-}
-
-.hy {
-  --tw-bg-opacity: 1;
-  background-color: rgb(245 158 11 / var(--tw-bg-opacity))
-}
-
-.ho {
-  --tw-bg-opacity: 1;
-  background-color: rgb(99 102 241 / var(--tw-bg-opacity))
-}
-.gj {
-  --tw-text-opacity: 1;
-  color: rgb(226 232 240 / var(--tw-text-opacity));
-}
 </style>
