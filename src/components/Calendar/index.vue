@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-
+import Lang from "./i18n/lang.js"
 const month = ref(1);
 const year = ref(2022);
 const daysInMonth = ref();
 const startingBlankDays = ref();
 const endingBlankDays = ref();
-const monthNames = ref(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]);
-const dayNames = ref(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]);
+const monthNames = ref(Lang.zh.monthNames);
+const dayNames = ref(Lang.zh.weekNames);
 const events = ref([
   // Previous month
   {
@@ -176,12 +176,14 @@ const getEvents = (date: number) => {
 
 const getDays = () => {
   const days = new Date(year.value, month.value + 1, 0).getDate();
+  console.log("days",days);
   // starting empty cells (previous month)
   const startingDayOfWeek = new Date(year.value, month.value).getDay();
+  console.log("startingDayOfWeek",startingDayOfWeek)
   const startingBlankDaysArray = [];
   for (let i = 1; i <= startingDayOfWeek; i++)
     startingBlankDaysArray.push(i);
-
+  console.log("startingBlankDaysArray",startingBlankDaysArray)
   // ending empty cells (next month)
   const endingDayOfWeek = new Date(year.value, month.value + 1, 0).getDay();
   const endingBlankDaysArray = [];
@@ -256,11 +258,11 @@ onMounted(() => {
           <!-- Create event button -->
           <button
             class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
-               justify-center bg-indigo-500
+               justify-center hover:bg-indigo-500 bg-blue-500
                shadow hover:text-slate-600
                transition transition-colors disabled:cursor-not-allowed"
           >
-            <svg class="w-4 h-4 fill-current opacity-50 flex-shrink-0" viewBox="0 0 16 16">
+            <svg class="w-4 h-4 fill-white opacity-50 flex-shrink-0" viewBox="0 0 16 16">
               <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
             </svg>
             <span class="hidden text-white sm:block ml-1">Create Event</span>
