@@ -8,7 +8,7 @@ import Cell from "./Cell.vue";
 </script>
 
 <template>
-  <Cell composite-class="bg-white">
+  <Cell composite-class="bg-gray-50">
     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
       <rect width="100%" height="100%" fill="url(#stripes)" />
     </svg>

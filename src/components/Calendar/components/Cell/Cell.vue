@@ -4,7 +4,7 @@
 *  @createdTime: 2022-09-13 09:57
  -->
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 
 const props = defineProps({
   overrideClass: String,
@@ -15,16 +15,14 @@ const props = defineProps({
   },
 });
 onMounted(() => {
-  calculatorClass();
 });
 const CellClass = ref();
-const calculatorClass = () => {
+watchEffect(() => {
   if (props.overrideClass)
     CellClass.value = props.overrideClass;
-
   else
     CellClass.value = `h-20 sm:h-24 lg:h-32 ${props.compositeClass}`;
-};
+});
 </script>
 
 <template>
