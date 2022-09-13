@@ -191,7 +191,7 @@ const isToday = (date: number) => {
     <div class="h-full flex flex-col justify-between">
       <!-- Events -->
       <div class="flex-grow flex flex-col relative p-px p-1 overflow-hidden">
-        <template v-for="event in getEvents(day)">
+        <template v-for="event in getEvents(day)" :key="event.eventName">
           <button class="w-full text-left mb-1">
             <div
               class="px-2 py-px rounded overflow-hidden" :class="{

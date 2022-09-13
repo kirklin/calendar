@@ -13,14 +13,11 @@ const dayNames = ref(Lang.zh.weekNames);
 
 const getDays = () => {
   const days = new Date(year.value, month.value + 1, 0).getDate();
-  console.log("days", days);
   // starting empty cells (previous month)
   const startingDayOfWeek = new Date(year.value, month.value).getDay();
-  console.log("startingDayOfWeek", startingDayOfWeek);
   const startingBlankDaysArray = [];
   for (let i = 1; i <= startingDayOfWeek; i++)
     startingBlankDaysArray.push(i);
-  console.log("startingBlankDaysArray", startingBlankDaysArray);
   // ending empty cells (next month)
   const endingDayOfWeek = new Date(year.value, month.value + 1, 0).getDay();
   const endingBlankDaysArray = [];
@@ -236,7 +233,7 @@ onMounted(() => {
             </defs>
           </svg>
           <!-- Empty cells (previous month) -->
-          <BlankCell v-for="blankday in startingBlankDays" />
+          <BlankCell v-for="n in startingBlankDays" :key="n" />
 
           <!-- Days w-px the current month -->
           <template v-for="(day, dayIndex) in daysInMonth" :key="dayIndex">
@@ -244,7 +241,7 @@ onMounted(() => {
           </template>
 
           <!-- Empty cells (next month) -->
-          <BlankCell v-for="blankday in endingBlankDays" />
+          <BlankCell v-for="n in endingBlankDays" :key="n" />
         </div>
       </div>
     </div>
