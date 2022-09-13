@@ -7,6 +7,8 @@ import Lang from "./i18n/lang";
 import type { localType, modeType } from "./typings/types";
 const month = ref(1);
 const year = ref(2022);
+const week = ref(1);
+const day = ref(1);
 const locale = ref<localType>("zh");
 const calendarMode = ref<modeType>("MONTH");
 const daysInMonth = ref();
@@ -14,8 +16,9 @@ const startingBlankDays = ref();
 const endingBlankDays = ref();
 const monthNames = ref(Lang[locale.value].monthNames);
 const getDays = () => {
-  const days = new Date(year.value, month.value + 1, 0).getDate();
   if (calendarMode.value === "MONTH") {
+    const startTime = new Date(year.value, month.value, 1).getDate();
+    const endTime = new Date(year.value, month.value + 1, 0).getDate();
     // starting empty cells (previous month)
     const startingDayOfWeek = new Date(year.value, month.value).getDay();
     const startingBlankDaysArray = [];
@@ -28,16 +31,18 @@ const getDays = () => {
       endingBlankDaysArray.push(i);
     // current month cells
     const daysArray = [];
-    for (let i = 1; i <= days; i++)
+    for (let i = startTime; i <= endTime; i++)
       daysArray.push(i);
     startingBlankDays.value = startingBlankDaysArray;
     endingBlankDays.value = endingBlankDaysArray;
     daysInMonth.value = daysArray;
   }
   else if (calendarMode.value === "WEEK") {
+    const startTime = new Date(year.value, month.value, new Date().getDate() - new Date().getDay()).getDate();
+    const endTime = new Date(year.value, month.value, new Date().getDate() + 6 - new Date().getDay()).getDate();
     // current month cells
     const daysArray = [];
-    for (let i = 1; i <= 7; i++)
+    for (let i = startTime; i <= endTime; i++)
       daysArray.push(i);
     startingBlankDays.value = [];
     endingBlankDays.value = [];
@@ -45,13 +50,24 @@ const getDays = () => {
   }
   else if (calendarMode.value === "DAY") {
     // current month cells
-    const daysArray = [];
-    for (let i = 1; i <= 1; i++)
-      daysArray.push(i);
     startingBlankDays.value = [];
     endingBlankDays.value = [];
-    daysInMonth.value = daysArray;
+    daysInMonth.value = [new Date().getDate()];
   }
+};
+
+const getWeekOfYear = () => {
+  const today = new Date();
+  let firstDay = new Date(today.getFullYear(), 0, 1);
+  const dayOfWeek = firstDay.getDay();
+  let spendDay = 1;
+  if (dayOfWeek !== 0)
+    spendDay = 7 - dayOfWeek + 1;
+
+  firstDay = new Date(today.getFullYear(), 0, 1 + spendDay);
+  const d = Math.ceil((today.valueOf() - firstDay.valueOf()) / 86400000);
+  const result = Math.ceil(d / 7);
+  return result + 1;
 };
 const changeMode = (mode: modeType) => {
   calendarMode.value = mode;
@@ -62,7 +78,24 @@ const initCalendar = () => {
 
   month.value = today.getMonth();
   year.value = today.getFullYear();
+  week.value = getWeekOfYear();
+  day.value = today.getDate();
   getDays();
+};
+const onPreviousButtonClick = () => {
+  if (calendarMode.value === "MONTH") {
+    month.value--;
+    getDays();
+  }
+  else if (calendarMode.value === "WEEK") {
+    week.value--;
+  }
+};
+const onNextButtonClick = () => {
+  if (calendarMode.value === "MONTH") {
+    month.value++;
+    getDays();
+  }
 };
 onMounted(() => {
   initCalendar();
@@ -77,7 +110,10 @@ onMounted(() => {
         <!-- Left: Title -->
         <div class="mb-4 h-3:mb-0">
           <h1 class="text-2xl tracking-normal md:text-3xl text-slate-800 font-bold">
-            <span>{{ `${year} ${monthNames[month]}` }}</span> ✨
+            <span v-if="calendarMode === 'MONTH'">{{ `${year} ${monthNames[month]}` }}</span>
+            <span v-if="calendarMode === 'WEEK'">{{ `${year} ${week}周` }}</span>
+            <span v-if="calendarMode === 'DAY'">{{ `${year} ${monthNames[month]} ${week}周 ${daysInMonth[0]}日` }}</span>
+            ✨
           </h1>
         </div>
 
@@ -89,7 +125,7 @@ onMounted(() => {
                justify-center bg-white border-slate-200 hover:border-slate-300 text-slate-500
                shadow hover:text-slate-600
                transition transition-colors disabled:cursor-not-allowed"
-            :disabled="month === 0" @click="month--; getDays()"
+            :disabled="month === 0" @click="onPreviousButtonClick()"
           >
             <span class="sr-only">Previous month</span><wbr>
             <svg class="h-4 w-4 fill-current" viewBox="0 0 16 16">
@@ -103,7 +139,7 @@ onMounted(() => {
                justify-center bg-white border-slate-200 hover:border-slate-300 text-slate-500
                shadow hover:text-slate-600
                transition transition-colors disabled:cursor-not-allowed"
-            :disabled="month === 11" @click="month++; getDays()"
+            :disabled="month === 11" @click="onNextButtonClick()"
           >
             <span class="sr-only">Next month</span><wbr>
             <svg class="h-4 w-4 fill-current" viewBox="0 0 16 16">
