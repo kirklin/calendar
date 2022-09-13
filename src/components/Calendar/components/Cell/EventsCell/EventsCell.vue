@@ -5,6 +5,7 @@
  -->
 <script setup lang="ts">
 import { ref } from "vue";
+import type { modeType } from "../../../typings/types";
 import Cell from "../Cell.vue";
 import CellEvent from "./Events/CellEvent.vue";
 import { events } from "./Events/data";
@@ -20,6 +21,11 @@ const props = defineProps({
   day: {
     type: Number,
   },
+  mode: {
+    type: String,
+    default: "MONTH",
+    required: true,
+  },
 });
 
 const getEvents = (date: number) => {
@@ -31,10 +37,19 @@ const isToday = (date: number) => {
   const day = new Date(props.year, props.month, date);
   return today.toDateString() === day.toDateString();
 };
+
+const calCellStyle = (mode: modeType): String => {
+  switch (mode) {
+    case "MONTH": return "h-20 sm:h-24 lg:h-32 bg-white overflow-hidden";
+    case "WEEK": return "h-60 sm:h-72 lg:h-96 bg-white overflow-hidden";
+    case "DAY": return "h-60 sm:h-72 lg:h-96 bg-white overflow-hidden";
+  }
+  return "";
+};
 </script>
 
 <template>
-  <Cell composite-class="bg-white overflow-hidden">
+  <Cell :override-class="calCellStyle(mode)">
     <div class="h-full flex flex-col justify-between">
       <!-- Events -->
       <div class="flex-grow flex flex-col relative p-px p-1 overflow-hidden">
@@ -43,7 +58,7 @@ const isToday = (date: number) => {
         </template>
         <div class="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white pointer-events-none" aria-hidden="true" />
       </div>
-      <!-- Week Cell footer -->
+      <!-- Month Cell footer -->
       <div class="flex justify-between items-center p-px p-1">
         <!-- More button (if more than 2 events) -->
         <template v-if="getEvents(day).length > 2">

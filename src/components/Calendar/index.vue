@@ -2,41 +2,60 @@
 import { onMounted, ref } from "vue";
 import CalendarMonthHeader from "./components/CalendarHeader/CalendarMonthHeader.vue";
 import BlankCell from "./components/Cell/BlankCell.vue";
-import EventsMonthCell from "./components/Cell/EventsCell/EventsMonthCell.vue";
+import EventsCell from "./components/Cell/EventsCell/EventsCell.vue";
 import Lang from "./i18n/lang";
 import type { localType, modeType } from "./typings/types";
 const month = ref(1);
 const year = ref(2022);
 const locale = ref<localType>("zh");
 const calendarMode = ref<modeType>("MONTH");
-const changeMode = (mode: modeType) => {
-  calendarMode.value = mode;
-};
 const daysInMonth = ref();
 const startingBlankDays = ref();
 const endingBlankDays = ref();
 const monthNames = ref(Lang[locale.value].monthNames);
 const getDays = () => {
   const days = new Date(year.value, month.value + 1, 0).getDate();
-  // starting empty cells (previous month)
-  const startingDayOfWeek = new Date(year.value, month.value).getDay();
-  const startingBlankDaysArray = [];
-  for (let i = 1; i <= startingDayOfWeek; i++)
-    startingBlankDaysArray.push(i);
-  // ending empty cells (next month)
-  const endingDayOfWeek = new Date(year.value, month.value + 1, 0).getDay();
-  const endingBlankDaysArray = [];
-  for (let i = 1; i < 7 - endingDayOfWeek; i++)
-    endingBlankDaysArray.push(i);
-
-  // current month cells
-  const daysArray = [];
-  for (let i = 1; i <= days; i++)
-    daysArray.push(i);
-
-  startingBlankDays.value = startingBlankDaysArray;
-  endingBlankDays.value = endingBlankDaysArray;
-  daysInMonth.value = daysArray;
+  if (calendarMode.value === "MONTH") {
+    // starting empty cells (previous month)
+    const startingDayOfWeek = new Date(year.value, month.value).getDay();
+    const startingBlankDaysArray = [];
+    for (let i = 1; i <= startingDayOfWeek; i++)
+      startingBlankDaysArray.push(i);
+    // ending empty cells (next month)
+    const endingDayOfWeek = new Date(year.value, month.value + 1, 0).getDay();
+    const endingBlankDaysArray = [];
+    for (let i = 1; i < 7 - endingDayOfWeek; i++)
+      endingBlankDaysArray.push(i);
+    // current month cells
+    const daysArray = [];
+    for (let i = 1; i <= days; i++)
+      daysArray.push(i);
+    startingBlankDays.value = startingBlankDaysArray;
+    endingBlankDays.value = endingBlankDaysArray;
+    daysInMonth.value = daysArray;
+  }
+  else if (calendarMode.value === "WEEK") {
+    // current month cells
+    const daysArray = [];
+    for (let i = 1; i <= 7; i++)
+      daysArray.push(i);
+    startingBlankDays.value = [];
+    endingBlankDays.value = [];
+    daysInMonth.value = daysArray;
+  }
+  else if (calendarMode.value === "DAY") {
+    // current month cells
+    const daysArray = [];
+    for (let i = 1; i <= 1; i++)
+      daysArray.push(i);
+    startingBlankDays.value = [];
+    endingBlankDays.value = [];
+    daysInMonth.value = daysArray;
+  }
+};
+const changeMode = (mode: modeType) => {
+  calendarMode.value = mode;
+  getDays();
 };
 const initCalendar = () => {
   const today = new Date();
@@ -230,7 +249,12 @@ onMounted(() => {
       <div class="bg-white rounded-h-3 shadow overflow-hidden">
         <CalendarMonthHeader />
         <!--        Day cells -->
-        <div class="grid grid-cols-7 gap-px bg-gray-200">
+        <div
+          class="grid gap-px bg-gray-200" :class="{
+            'grid-cols-7': calendarMode === 'MONTH' | calendarMode === 'WEEK',
+            'grid-cols-1': calendarMode === 'DAY',
+          }"
+        >
           <!-- Diagonal stripes pattern -->
           <svg class="sr-only">
             <defs>
@@ -244,7 +268,7 @@ onMounted(() => {
 
           <!-- Days w-px the current month -->
           <template v-for="(day, dayIndex) in daysInMonth" :key="dayIndex">
-            <EventsMonthCell :month="month" :year="year" :day="day" />
+            <EventsCell :month="month" :year="year" :day="day" :mode="calendarMode" />
           </template>
 
           <!-- Empty cells (next month) -->
