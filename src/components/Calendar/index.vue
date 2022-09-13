@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import Lang from "./i18n/lang.js"
+import BlankCell from "./components/Cell/BlankCell.vue";
+import EventsCell from "./components/Cell/EventsCell.vue";
+import Lang from "./i18n/lang.js";
 const month = ref(1);
 const year = ref(2022);
 const daysInMonth = ref();
@@ -8,182 +10,17 @@ const startingBlankDays = ref();
 const endingBlankDays = ref();
 const monthNames = ref(Lang.zh.monthNames);
 const dayNames = ref(Lang.zh.weekNames);
-const events = ref([
-  // Previous month
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 8, 3),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 8, 7),
-    eventName: "⛱️ Relax for 2 at Marienbad",
-    eventColor: "indigo",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 12, 10),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 12, 11),
-    eventName: "Team Catch-up",
-    eventColor: "sky",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 18, 2),
-    eventEnd: "",
-    eventName: "✍️ New Project (2)",
-    eventColor: "yellow",
-  },
-  // Current month
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 1, 10),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 1, 11),
-    eventName: "Meeting w/ Patrick Lin",
-    eventColor: "sky",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 1, 19),
-    eventEnd: "",
-    eventName: "Reservation at La Ginestre",
-    eventColor: "indigo",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 3, 9),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 3, 10),
-    eventName: "✍️ New Project",
-    eventColor: "yellow",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 7, 21),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 7, 22),
-    eventName: "⚽ 2021 - Semi-final",
-    eventColor: "red",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 9, 10),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 9, 11),
-    eventName: "Meeting w/Carolyn",
-    eventColor: "sky",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 9, 13),
-    eventEnd: "",
-    eventName: "Pick up Marta at school",
-    eventColor: "emerald",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 9, 14),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 9, 15),
-    eventName: "Meeting w/ Patrick Lin",
-    eventColor: "emerald",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 9, 19),
-    eventEnd: "",
-    eventName: "Reservation at La Ginestre",
-    eventColor: "indigo",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 11, 10),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 11, 11),
-    eventName: "⛱️ Relax for 2 at Marienbad",
-    eventColor: "indigo",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 11, 19),
-    eventEnd: "",
-    eventName: "⚽ 2021 - Semi-final",
-    eventColor: "red",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 14, 10),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 14, 11),
-    eventName: "Team Catch-up",
-    eventColor: "sky",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 21, 2),
-    eventEnd: "",
-    eventName: "Pick up Marta at school",
-    eventColor: "emerald",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 21, 3),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 21, 7),
-    eventName: "✍️ New Project (2)",
-    eventColor: "yellow",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 22, 10),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 22, 11),
-    eventName: "Team Catch-up",
-    eventColor: "sky",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 22, 19),
-    eventEnd: "",
-    eventName: "⚽ 2021 - Semi-final",
-    eventColor: "red",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 23, 0),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 23, 23),
-    eventName: "You stay at Meridiana B&B",
-    eventColor: "indigo",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 25, 10),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 25, 11),
-    eventName: "Meeting w/ Kylie Joh",
-    eventColor: "sky",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth(), 29, 10),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 29, 11),
-    eventName: "Call Request ->",
-    eventColor: "sky",
-  },
-  // Next month
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 2, 3),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 2, 7),
-    eventName: "✍️ New Project (2)",
-    eventColor: "yellow",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 14, 10),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth(), 14, 11),
-    eventName: "Team Catch-up",
-    eventColor: "sky",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 25, 2),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 25, 3),
-    eventName: "Pick up Marta at school",
-    eventColor: "emerald",
-  },
-  {
-    eventStart: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 27, 21),
-    eventEnd: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 27, 22),
-    eventName: "⚽ 2021 - Semi-final",
-    eventColor: "red",
-  },
-]);
-
-const isToday = (date: number) => {
-  const today = new Date();
-  const day = new Date(year.value, month.value, date);
-  return today.toDateString() === day.toDateString();
-};
-
-const getEvents = (date: number) => {
-  return events.value.filter(e => new Date(e.eventStart).toDateString() === new Date(year.value, month.value, date).toDateString());
-};
 
 const getDays = () => {
   const days = new Date(year.value, month.value + 1, 0).getDate();
-  console.log("days",days);
+  console.log("days", days);
   // starting empty cells (previous month)
   const startingDayOfWeek = new Date(year.value, month.value).getDay();
-  console.log("startingDayOfWeek",startingDayOfWeek)
+  console.log("startingDayOfWeek", startingDayOfWeek);
   const startingBlankDaysArray = [];
   for (let i = 1; i <= startingDayOfWeek; i++)
     startingBlankDaysArray.push(i);
-  console.log("startingBlankDaysArray",startingBlankDaysArray)
+  console.log("startingBlankDaysArray", startingBlankDaysArray);
   // ending empty cells (next month)
   const endingDayOfWeek = new Date(year.value, month.value + 1, 0).getDay();
   const endingBlankDaysArray = [];
@@ -399,74 +236,15 @@ onMounted(() => {
             </defs>
           </svg>
           <!-- Empty cells (previous month) -->
-          <template v-for="blankday in startingBlankDays">
-            <div class="hp h-20 sm:h-24 lg:h-32">
-              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                <rect width="100%" height="100%" fill="url(#stripes)" />
-              </svg>
-            </div>
-          </template>
+          <BlankCell v-for="blankday in startingBlankDays" />
 
           <!-- Days w-px the current month -->
           <template v-for="(day, dayIndex) in daysInMonth" :key="dayIndex">
-            <div class="relative bg-white h-20 sm:h-24 lg:h-32 overflow-hidden">
-              <div class="h-full flex flex-col justify-between">
-                <!-- Events -->
-                <div class="flex-grow flex flex-col relative p-px p-1 overflow-hidden">
-                  <template v-for="event in getEvents(day)">
-                    <button class="relative w-full text-left mb-1">
-                      <div
-                        class="px-2 py-px rounded overflow-hidden" :class="{
-                          'ye hv': event.eventColor === 'sky',
-                          'ye ho': event.eventColor === 'indigo',
-                          'ye hy': event.eventColor === 'yellow',
-                          'ye hd': event.eventColor === 'emerald',
-                          'ye hg': event.eventColor === 'red',
-                        }"
-                      >
-                        <!-- Event name -->
-                        <div class="text-xs text-white leading-normal font-semibold truncate" v-text="event.eventName" />
-                        <!-- Event time -->
-                        <div class="text-xs text-white leading-normal uppercase truncate hidden sm:block">
-                          <!-- Start date -->
-                          <template v-if="event.eventStart">
-                            <span v-text="event.eventStart.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: 'numeric' })" />
-                          </template>
-                          <!-- End date -->
-                          <template v-if="event.eventEnd">
-                            <span>
-                              - <span v-text="event.eventEnd.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: 'numeric' })" />
-                            </span>
-                          </template>
-                        </div>
-                      </div>
-                    </button>
-                  </template>
-                  <div class="absolute bottom-0 left-0 right-0 h-4 pl pp pj pointer-events-none" aria-hidden="true" />
-                </div>
-                <!-- Cell footer -->
-                <div class="flex justify-between items-center p-px p-1">
-                  <!-- More button (if more than 2 events) -->
-                  <template v-if="getEvents(day).length > 2">
-                    <button class="text-xs leading-normal text-slate-500 font-medium whitespace-no-wrap text-center sm:py-px px-px sm:px-2 border border-slate-200 rounded">
-                      <span class="hidden">+</span><span v-text="getEvents(day).length - 2" /> <span class="hidden md:inline">more</span>
-                    </button>
-                  </template>
-                  <!-- Day number -->
-                  <button class="inline-flex ml-auto oi so items-center justify-center text-xs leading-normal sm:text-sm  font-medium text-center rounded-full xs" :class="{ 'text-indigo-500': isToday(day) }" v-text="day" />
-                </div>
-              </div>
-            </div>
+            <EventsCell :month="month" :year="year" :day="day" />
           </template>
 
           <!-- Empty cells (next month) -->
-          <template v-for="blankday in endingBlankDays">
-            <div class="hp h-20 sm:h-24 lg:h-32">
-              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                <rect width="100%" height="100%" fill="url(#stripes)" />
-              </svg>
-            </div>
-          </template>
+          <BlankCell v-for="blankday in endingBlankDays" />
         </div>
       </div>
     </div>
@@ -474,26 +252,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.pj {
-  --tw-gradient-to: transparent;
-}
-.pp {
-  --tw-gradient-from: #fff;
-  --tw-gradient-to: rgb(255 255 255 / 0);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-.pl {
-  background-image: linear-gradient(to top, var(--tw-gradient-stops));
-}
-
 .hu {
   --tw-bg-opacity: 1;
   background-color: rgb(226 232 240 / var(--tw-bg-opacity))
-}
-
-.hp {
-  --tw-bg-opacity: 1;
-  background-color: rgb(248 250 252 / var(--tw-bg-opacity))
 }
 
 .hd {
