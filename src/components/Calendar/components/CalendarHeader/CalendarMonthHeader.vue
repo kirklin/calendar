@@ -7,7 +7,7 @@
 import { ref } from "vue";
 import Lang from "../../i18n/lang";
 
-const dayNames = ref(Lang.zh.weekNames);
+const dayNames = ref(Lang.zh.dayNames);
 </script>
 
 <template>

@@ -3,13 +3,19 @@ import { onMounted, ref } from "vue";
 import CalendarMonthHeader from "./components/CalendarHeader/CalendarMonthHeader.vue";
 import BlankCell from "./components/Cell/BlankCell.vue";
 import EventsMonthCell from "./components/Cell/EventsCell/EventsMonthCell.vue";
-import Lang from "./i18n/lang.js";
+import Lang from "./i18n/lang";
+import type { localType, modeType } from "./typings/types";
 const month = ref(1);
 const year = ref(2022);
+const locale = ref<localType>("zh");
+const calendarMode = ref<modeType>("MONTH");
+const changeMode = (mode: modeType) => {
+  calendarMode.value = mode;
+};
 const daysInMonth = ref();
 const startingBlankDays = ref();
 const endingBlankDays = ref();
-const monthNames = ref(Lang.zh.monthNames);
+const monthNames = ref(Lang[locale.value].monthNames);
 const getDays = () => {
   const days = new Date(year.value, month.value + 1, 0).getDate();
   // starting empty cells (previous month)
@@ -177,28 +183,43 @@ onMounted(() => {
         </div>
 
         <!-- View buttons (requires custom integration) -->
-        <div class="flex flex-no-wrap fv">
+        <div class="flex flex-no-wrap">
           <button
             class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
-               justify-center bg-white border-slate-200 text-indigo-500
+               justify-center bg-white border-slate-100 hover:border-slate-200
                shadow
                transition transition-colors"
+            :class="{
+              'text-indigo-500': calendarMode === 'MONTH',
+              'text-gray-500': calendarMode !== 'MONTH',
+            }"
+            @click="changeMode('MONTH')"
           >
             Month
           </button>
           <button
             class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
-               justify-center bg-white border-slate-200  text-gray-500
+               justify-center bg-white border-slate-100 hover:border-slate-200
                shadow
                transition transition-colors"
+            :class="{
+              'text-indigo-500': calendarMode === 'WEEK',
+              'text-gray-500': calendarMode !== 'WEEK',
+            }"
+            @click="changeMode('WEEK')"
           >
             Week
           </button>
           <button
             class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
-               justify-center bg-white border-slate-200 text-gray-500
+               justify-center bg-white border-slate-100 hover:border-slate-200
                shadow
                transition transition-colors"
+            :class="{
+              'text-indigo-500': calendarMode === 'DAY',
+              'text-gray-500': calendarMode !== 'DAY',
+            }"
+            @click="changeMode('DAY')"
           >
             Day
           </button>
