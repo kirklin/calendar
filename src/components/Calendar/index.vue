@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
+import CalendarMonthHeader from "./components/CalendarHeader/CalendarMonthHeader.vue";
 import BlankCell from "./components/Cell/BlankCell.vue";
 import EventsMonthCell from "./components/Cell/EventsCell/EventsMonthCell.vue";
 import Lang from "./i18n/lang.js";
@@ -9,8 +10,6 @@ const daysInMonth = ref();
 const startingBlankDays = ref();
 const endingBlankDays = ref();
 const monthNames = ref(Lang.zh.monthNames);
-const dayNames = ref(Lang.zh.weekNames);
-
 const getDays = () => {
   const days = new Date(year.value, month.value + 1, 0).getDate();
   // starting empty cells (previous month)
@@ -208,20 +207,7 @@ onMounted(() => {
 
       <!-- Calendar table -->
       <div class="bg-white rounded-h-3 shadow overflow-hidden">
-        <!-- Days of the week -->
-        <div class="grid grid-cols-7 gap-px border-b border-slate-200">
-          <template v-for="(day, index) in dayNames" :key="index">
-            <div class="px-1 py-3">
-              <div class="text-slate-500 text-h-3 font-medium text-center lg:hidden">
-                {{ day.substring(0, 3) }}
-              </div>
-              <div class="text-slate-500 text-h-3 font-medium text-center hidden lg:block">
-                {{ day }}
-              </div>
-            </div>
-          </template>
-        </div>
-
+        <CalendarMonthHeader />
         <!--        Day cells -->
         <div class="grid grid-cols-7 gap-px bg-gray-200">
           <!-- Diagonal stripes pattern -->
