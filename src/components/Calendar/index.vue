@@ -87,9 +87,6 @@ const onPreviousButtonClick = () => {
     month.value--;
     getDays();
   }
-  else if (calendarMode.value === "WEEK") {
-    week.value--;
-  }
 };
 const onNextButtonClick = () => {
   if (calendarMode.value === "MONTH") {
@@ -112,7 +109,7 @@ onMounted(() => {
           <h1 class="text-2xl tracking-normal md:text-3xl text-slate-800 font-bold">
             <span v-if="calendarMode === 'MONTH'">{{ `${year} ${monthNames[month]}` }}</span>
             <span v-if="calendarMode === 'WEEK'">{{ `${year} ${week}周` }}</span>
-            <span v-if="calendarMode === 'DAY'">{{ `${year} ${monthNames[month]} ${week}周 ${daysInMonth[0]}日` }}</span>
+            <span v-if="calendarMode === 'DAY'">{{ `${year} ${monthNames[month]} ${week}周 ${day}日` }}</span>
             ✨
           </h1>
         </div>
