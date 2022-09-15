@@ -4,7 +4,7 @@
 *  @createdTime: 2022-09-13 10:09
  -->
 <script setup lang="ts">
-import { ref } from "vue";
+import type { PropType } from "vue";
 import type { modeType } from "../../../typings/types";
 import Cell from "../Cell.vue";
 import CellEvent from "./Events/CellEvent.vue";
@@ -22,7 +22,7 @@ const props = defineProps({
     type: Number,
   },
   mode: {
-    type: String,
+    type: String as PropType<modeType>,
     default: "MONTH",
     required: true,
   },

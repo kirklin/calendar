@@ -4,7 +4,6 @@
 *  @createdTime: 2022-09-13 11:15
  -->
 <script setup lang="ts">
-interface pros {}
 defineProps({
   data: {},
 });

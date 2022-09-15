@@ -8,9 +8,10 @@ import type { localType, modeType } from "./typings/types";
 const month = ref(1);
 const year = ref(2022);
 const week = ref(1);
-const day = ref(1);
+const today = ref(1);
 const locale = ref<localType>("zh");
 const calendarMode = ref<modeType>("MONTH");
+// 一个月中的天数
 const daysInMonth = ref();
 const startingBlankDays = ref();
 const endingBlankDays = ref();
@@ -74,12 +75,12 @@ const changeMode = (mode: modeType) => {
   getDays();
 };
 const initCalendar = () => {
-  const today = new Date();
+  const now = new Date();
 
-  month.value = today.getMonth();
-  year.value = today.getFullYear();
+  month.value = now.getMonth();
+  year.value = now.getFullYear();
   week.value = getWeekOfYear();
-  day.value = today.getDate();
+  today.value = now.getDate();
   getDays();
 };
 const onPreviousButtonClick = () => {
