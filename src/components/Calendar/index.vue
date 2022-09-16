@@ -1,103 +1,113 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, ref } from "vue";
+import dayjs from "dayjs";
+import "dayjs/locale/zh-cn"; // 使用本地化语言
+import WeekOfYear from "dayjs/plugin/weekOfYear";
+import weekday from "dayjs/plugin/weekday";
 import CalendarMonthHeader from "./components/CalendarHeader/CalendarMonthHeader.vue";
 import BlankCell from "./components/Cell/BlankCell.vue";
 import EventsCell from "./components/Cell/EventsCell/EventsCell.vue";
-import Lang from "./i18n/lang";
-import type { localType, modeType } from "./typings/types";
-const month = ref(1);
-const year = ref(2022);
-const week = ref(1);
-const today = ref(1);
-const locale = ref<localType>("zh");
+import type { modeType } from "./typings/types";
+dayjs.locale("zh-cn");
+dayjs.extend(WeekOfYear);
+dayjs.extend(weekday);
 const calendarMode = ref<modeType>("MONTH");
+
+const selectedDate = ref(dayjs());
+const today = computed(() => {
+  return dayjs().format("YYYY-MM-DD");
+});
+
+const month = computed(() => {
+  return selectedDate.value.format("M");
+});
+
+const year = computed(() => {
+  return selectedDate.value.year();
+});
+
+const week = computed(() => {
+  return selectedDate.value.week();
+});
+
 // 一个月中的天数
-const daysInMonth = ref();
-const startingBlankDays = ref();
-const endingBlankDays = ref();
-const monthNames = ref(Lang[locale.value].monthNames);
-const getDays = () => {
-  if (calendarMode.value === "MONTH") {
-    const startTime = new Date(year.value, month.value, 1).getDate();
-    const endTime = new Date(year.value, month.value + 1, 0).getDate();
-    // starting empty cells (previous month)
-    const startingDayOfWeek = new Date(year.value, month.value).getDay();
-    const startingBlankDaysArray = [];
-    for (let i = 1; i <= startingDayOfWeek; i++)
-      startingBlankDaysArray.push(i);
-    // ending empty cells (next month)
-    const endingDayOfWeek = new Date(year.value, month.value + 1, 0).getDay();
-    const endingBlankDaysArray = [];
-    for (let i = 1; i < 7 - endingDayOfWeek; i++)
-      endingBlankDaysArray.push(i);
-    // current month cells
-    const daysArray = [];
-    for (let i = startTime; i <= endTime; i++)
-      daysArray.push(i);
-    startingBlankDays.value = startingBlankDaysArray;
-    endingBlankDays.value = endingBlankDaysArray;
-    daysInMonth.value = daysArray;
-  }
-  else if (calendarMode.value === "WEEK") {
-    const startTime = new Date(year.value, month.value, new Date().getDate() - new Date().getDay()).getDate();
-    const endTime = new Date(year.value, month.value, new Date().getDate() + 6 - new Date().getDay()).getDate();
-    // current month cells
-    const daysArray = [];
-    for (let i = startTime; i <= endTime; i++)
-      daysArray.push(i);
-    startingBlankDays.value = [];
-    endingBlankDays.value = [];
-    daysInMonth.value = daysArray;
-  }
-  else if (calendarMode.value === "DAY") {
-    // current month cells
-    startingBlankDays.value = [];
-    endingBlankDays.value = [];
-    daysInMonth.value = [new Date().getDate()];
-  }
-};
+const daysInMonth = computed(() => {
+  return dayjs(selectedDate.value).daysInMonth();
+});
 
-const getWeekOfYear = () => {
-  const today = new Date();
-  let firstDay = new Date(today.getFullYear(), 0, 1);
-  const dayOfWeek = firstDay.getDay();
-  let spendDay = 1;
-  if (dayOfWeek !== 0)
-    spendDay = 7 - dayOfWeek + 1;
-
-  firstDay = new Date(today.getFullYear(), 0, 1 + spendDay);
-  const d = Math.ceil((today.valueOf() - firstDay.valueOf()) / 86400000);
-  const result = Math.ceil(d / 7);
-  return result + 1;
-};
 const changeMode = (mode: modeType) => {
   calendarMode.value = mode;
-  getDays();
 };
-const initCalendar = () => {
-  const now = new Date();
-
-  month.value = now.getMonth();
-  year.value = now.getFullYear();
-  week.value = getWeekOfYear();
-  today.value = now.getDate();
-  getDays();
+const getWeekday = (date: dayjs.ConfigType) => {
+  return dayjs(date).weekday();
 };
-const onPreviousButtonClick = () => {
-  if (calendarMode.value === "MONTH") {
-    month.value--;
-    getDays();
-  }
-};
-const onNextButtonClick = () => {
-  if (calendarMode.value === "MONTH") {
-    month.value++;
-    getDays();
-  }
-};
-onMounted(() => {
-  initCalendar();
+const currentMonthDays = computed(() => {
+  return [...Array(daysInMonth.value)].map((day, index) => {
+    return {
+      date: dayjs(`${year.value}-${month.value}-${index + 1}`).format(
+        "YYYY-MM-DD",
+      ),
+      isCurrentMonth: true,
+    };
+  });
 });
+const previousMonthDays = computed(() => {
+  // 获取第一天是星期几(从0开始)
+  const firstDayOfTheMonthWeekday = dayjs(currentMonthDays.value[0].date).day();
+  // 上一个月
+  const previousMonth = dayjs(`${year.value}-${month.value}-01`).subtract(
+    1,
+    "month",
+  );
+  const previousMonthLastMondayDayOfMonth = dayjs(
+    currentMonthDays.value[0].date,
+  )
+    .subtract(firstDayOfTheMonthWeekday, "day")
+    .date();
+
+  return [...Array(firstDayOfTheMonthWeekday)].map(
+    (day, index) => {
+      return {
+        date: dayjs(
+              `${previousMonth.year()}-${previousMonth.month()
+              + 1}-${previousMonthLastMondayDayOfMonth + index}`,
+        ).format("YYYY-MM-DD"),
+        isCurrentMonth: false,
+      };
+    },
+  );
+});
+
+const nextMonthDays = computed(() => {
+  const lastDayOfTheMonthWeekday = dayjs(currentMonthDays.value[currentMonthDays.value.length - 1].date).day();
+  const nextMonth = dayjs(`${year.value}-${month.value}-01`).add(1, "month");
+  const visibleNumberOfDaysFromNextMonth = 6 - lastDayOfTheMonthWeekday;
+
+  return [...Array(visibleNumberOfDaysFromNextMonth)].map((day, index) => {
+    return {
+      date: dayjs(
+          `${nextMonth.year()}-${nextMonth.month() + 1}-${index + 1}`,
+      ).format("YYYY-MM-DD"),
+      isCurrentMonth: false,
+    };
+  });
+});
+
+const selectDate = (newSelectedDate: dayjs.Dayjs) => {
+  selectedDate.value = newSelectedDate;
+};
+const selectPrevious = () => {
+  const newSelectedDate = dayjs(selectedDate.value).subtract(1, "month");
+  selectDate(newSelectedDate);
+};
+const selectCurrent = () => {
+  const newSelectedDate = dayjs(today.value);
+  selectDate(newSelectedDate);
+};
+const selectNext = () => {
+  const newSelectedDate = dayjs(selectedDate.value).add(1, "month");
+  selectDate(newSelectedDate);
+};
 </script>
 
 <template>
@@ -108,9 +118,7 @@ onMounted(() => {
         <!-- Left: Title -->
         <div class="mb-4 h-3:mb-0">
           <h1 class="text-2xl tracking-normal md:text-3xl text-slate-800 font-bold">
-            <span v-if="calendarMode === 'MONTH'">{{ `${year} ${monthNames[month]}` }}</span>
-            <span v-if="calendarMode === 'WEEK'">{{ `${year} ${week}周` }}</span>
-            <span v-if="calendarMode === 'DAY'">{{ `${year} ${monthNames[month]} ${week}周 ${day}日` }}</span>
+            <span>{{ selectedDate.format("YYYY MMMM") }}</span>
             ✨
           </h1>
         </div>
@@ -123,7 +131,7 @@ onMounted(() => {
                justify-center bg-white border-slate-200 hover:border-slate-300 text-slate-500
                shadow hover:text-slate-600
                transition transition-colors disabled:cursor-not-allowed"
-            :disabled="month === 0" @click="onPreviousButtonClick()"
+            @click="selectPrevious()"
           >
             <span class="sr-only">Previous month</span><wbr>
             <svg class="h-4 w-4 fill-current" viewBox="0 0 16 16">
@@ -137,7 +145,7 @@ onMounted(() => {
                justify-center bg-white border-slate-200 hover:border-slate-300 text-slate-500
                shadow hover:text-slate-600
                transition transition-colors disabled:cursor-not-allowed"
-            :disabled="month === 11" @click="onNextButtonClick()"
+            @click="selectNext()"
           >
             <span class="sr-only">Next month</span><wbr>
             <svg class="h-4 w-4 fill-current" viewBox="0 0 16 16">
@@ -298,15 +306,15 @@ onMounted(() => {
             </defs>
           </svg>
           <!-- Empty cells (previous month) -->
-          <BlankCell v-for="n in startingBlankDays" :key="n" />
+          <BlankCell v-for="day in previousMonthDays" :key="day.date" />
 
           <!-- Days w-px the current month -->
-          <template v-for="(day, dayIndex) in daysInMonth" :key="dayIndex">
-            <EventsCell :month="month" :year="year" :day="day" :mode="calendarMode" />
+          <template v-for="day in currentMonthDays" :key="day.date">
+            <EventsCell :month="month" :year="year" :day="day" :mode="calendarMode" :is-today="day.date === today" />
           </template>
 
           <!-- Empty cells (next month) -->
-          <BlankCell v-for="n in endingBlankDays" :key="n" />
+          <BlankCell v-for="day in nextMonthDays" :key="day.date" />
         </div>
       </div>
     </div>

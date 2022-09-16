@@ -4,6 +4,8 @@
 *  @createdTime: 2022-09-13 10:09
  -->
 <script setup lang="ts">
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import type { PropType } from "vue";
 import type { modeType } from "../../../typings/types";
 import Cell from "../Cell.vue";
@@ -11,31 +13,33 @@ import CellEvent from "./Events/CellEvent.vue";
 import { events } from "./Events/data";
 const props = defineProps({
   month: {
-    type: Number,
-    default: 1,
+    type: String,
   },
   year: {
     type: Number,
     default: 2021,
   },
   day: {
-    type: Number,
+    type: Object,
   },
   mode: {
     type: String as PropType<modeType>,
     default: "MONTH",
     required: true,
   },
+  isToday: {
+    type: Boolean,
+    default: false,
+  },
 });
-
-const getEvents = (date: number) => {
-  return events.filter(e => new Date(e.eventStart).toDateString() === new Date(props.year, props.month, date).toDateString());
-};
-
-const isToday = (date: number) => {
-  const today = new Date();
-  const day = new Date(props.year, props.month, date);
-  return today.toDateString() === day.toDateString();
+interface dayData {
+  date: string | number | Date | Dayjs | null | undefined
+  isCurrentMonth: Boolean
+}
+const getEvents = (day: dayData) => {
+  return events.filter((item) => {
+    return dayjs(item.eventStart).isSame(dayjs(day.date), "day");
+  });
 };
 
 const calCellStyle = (mode: modeType): String => {
@@ -67,7 +71,7 @@ const calCellStyle = (mode: modeType): String => {
           </button>
         </template>
         <!-- Day number -->
-        <button class="inline-flex ml-auto oi so items-center justify-center text-xs leading-normal sm:text-sm  font-medium text-center rounded-full xs" :class="{ 'text-indigo-500': isToday(day) }" v-text="day" />
+        <button class="inline-flex ml-auto oi so items-center justify-center text-xs leading-normal sm:text-sm  font-medium text-center rounded-full xs" :class="{ 'text-indigo-500': isToday }" v-text="dayjs(day.date).date()" />
       </div>
     </div>
   </Cell>
