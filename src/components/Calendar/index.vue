@@ -41,6 +41,12 @@ const changeMode = (mode: modeType) => {
 const getWeekday = (date: dayjs.ConfigType) => {
   return dayjs(date).weekday();
 };
+const todayCellData = computed(() => {
+  return {
+    date: selectedDate.value.format("YYYY-MM-DD"),
+    isCurrentMonth: selectedDate.value.month() === dayjs(today.value).month(),
+  };
+});
 const currentMonthDays = computed(() => {
   return [...Array(daysInMonth.value)].map((day, index) => {
     return {
@@ -93,11 +99,31 @@ const nextMonthDays = computed(() => {
   });
 });
 
+const currentWeekDays = computed(() => {
+  return [...Array(7)].map((day, index) => {
+    return {
+      date: selectedDate.value.day(index).format("YYYY-MM-DD"),
+      isCurrentMonth: selectedDate.value.day(index).month() === dayjs(today.value).month(),
+    };
+  });
+});
+
+const calendarMonthCellDays = computed(() => {
+  return [...previousMonthDays.value, ...currentMonthDays.value, ...nextMonthDays.value];
+});
+
 const selectDate = (newSelectedDate: dayjs.Dayjs) => {
   selectedDate.value = newSelectedDate;
 };
 const selectPrevious = () => {
-  const newSelectedDate = dayjs(selectedDate.value).subtract(1, "month");
+  let newSelectedDate;
+  if (calendarMode.value === "MONTH")
+    newSelectedDate = dayjs(selectedDate.value).subtract(1, "month");
+  else if (calendarMode.value === "WEEK")
+    newSelectedDate = dayjs(selectedDate.value).subtract(1, "week");
+  else if (calendarMode.value === "DAY")
+    newSelectedDate = dayjs(selectedDate.value).subtract(1, "day");
+  else newSelectedDate = dayjs(selectedDate.value).subtract(0, "day");
   selectDate(newSelectedDate);
 };
 const selectCurrent = () => {
@@ -105,7 +131,14 @@ const selectCurrent = () => {
   selectDate(newSelectedDate);
 };
 const selectNext = () => {
-  const newSelectedDate = dayjs(selectedDate.value).add(1, "month");
+  let newSelectedDate;
+  if (calendarMode.value === "MONTH")
+    newSelectedDate = dayjs(selectedDate.value).add(1, "month");
+  else if (calendarMode.value === "WEEK")
+    newSelectedDate = dayjs(selectedDate.value).add(1, "week");
+  else if (calendarMode.value === "DAY")
+    newSelectedDate = dayjs(selectedDate.value).add(1, "day");
+  else newSelectedDate = dayjs(selectedDate.value).subtract(0, "day");
   selectDate(newSelectedDate);
 };
 </script>
@@ -305,16 +338,28 @@ const selectNext = () => {
               </pattern>
             </defs>
           </svg>
-          <!-- Empty cells (previous month) -->
-          <BlankCell v-for="day in previousMonthDays" :key="day.date" />
+          <template v-if="calendarMode === 'MONTH'">
+            <!-- Empty cells (previous month) -->
+            <BlankCell v-for="day in previousMonthDays" :key="day.date" />
 
-          <!-- Days w-px the current month -->
-          <template v-for="day in currentMonthDays" :key="day.date">
-            <EventsCell :month="month" :year="year" :day="day" :mode="calendarMode" :is-today="day.date === today" />
+            <!-- Days w-px the current month -->
+            <template v-for="day in currentMonthDays" :key="day.date">
+              <EventsCell :month="month" :year="year" :day="day" :mode="calendarMode" :is-today="day.date === today" />
+            </template>
+
+            <!-- Empty cells (next month) -->
+            <BlankCell v-for="day in nextMonthDays" :key="day.date" />
           </template>
-
-          <!-- Empty cells (next month) -->
-          <BlankCell v-for="day in nextMonthDays" :key="day.date" />
+          <template v-if="calendarMode === 'WEEK'">
+            <!-- Days w-px the current month -->
+            <template v-for="day in currentWeekDays" :key="day.date">
+              <EventsCell :month="month" :year="year" :day="day" :mode="calendarMode" :is-today="day.date === today" />
+            </template>
+          </template>
+          <template v-if="calendarMode === 'DAY'">
+            <!-- Days w-px the current month -->
+            <EventsCell :month="month" :year="year" :day="todayCellData" :mode="calendarMode" :is-today="todayCellData.date === today" />
+          </template>
         </div>
       </div>
     </div>
