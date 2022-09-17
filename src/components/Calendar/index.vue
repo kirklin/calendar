@@ -173,7 +173,16 @@ const selectNext = () => {
               <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
             </svg>
           </button>
-
+          <!-- Today button -->
+          <button
+            class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
+               justify-center bg-white border-slate-200 hover:border-slate-300 text-slate-500
+               shadow hover:text-slate-600
+               transition transition-colors disabled:cursor-not-allowed"
+            @click="selectCurrent()"
+          >
+            <span>Today</span>
+          </button>
           <!-- Next month button -->
           <button
             class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
