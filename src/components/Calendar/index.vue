@@ -4,7 +4,9 @@ import dayjs from "dayjs";
 import "dayjs/locale/zh-cn"; // 使用本地化语言
 import WeekOfYear from "dayjs/plugin/weekOfYear";
 import weekday from "dayjs/plugin/weekday";
+import CalendarDayHeader from "./components/CalendarHeader/CalendarDayHeader.vue";
 import CalendarMonthHeader from "./components/CalendarHeader/CalendarMonthHeader.vue";
+import CalendarWeekHeader from "./components/CalendarHeader/CalendarWeekHeader.vue";
 import BlankCell from "./components/Cell/BlankCell.vue";
 import EventsCell from "./components/Cell/EventsCell/EventsCell.vue";
 import type { modeType } from "./typings/types";
@@ -322,7 +324,9 @@ const selectNext = () => {
 
       <!-- Calendar table -->
       <div class="bg-white rounded-h-3 shadow overflow-hidden">
-        <CalendarMonthHeader />
+        <CalendarMonthHeader v-if="calendarMode === 'MONTH'" />
+        <CalendarWeekHeader v-if="calendarMode === 'WEEK'" />
+        <CalendarDayHeader v-if="calendarMode === 'DAY'" :day="selectedDate" />
         <!--        Day cells -->
         <div
           class="grid gap-px bg-gray-200" :class="{
