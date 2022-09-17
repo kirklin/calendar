@@ -343,14 +343,6 @@ const selectNext = () => {
             'grid-cols-1': calendarMode === 'DAY',
           }"
         >
-          <!-- Diagonal stripes pattern -->
-          <svg class="sr-only">
-            <defs>
-              <pattern id="stripes" patternUnits="userSpaceOnUse" width="5" height="5" patternTransform="rotate(135)">
-                <line class="stroke-current text-gray-200  opacity-50" x1="0" relative="0" x2="0" y2="5" stroke-width="2" />
-              </pattern>
-            </defs>
-          </svg>
           <template v-if="calendarMode === 'MONTH'">
             <!-- Empty cells (previous month) -->
             <BlankCell v-for="day in previousMonthDays" :key="day.date" />
