@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/zh-cn"; // 使用本地化语言
 import WeekOfYear from "dayjs/plugin/weekOfYear";
 import weekday from "dayjs/plugin/weekday";
+import CalendarButtonSelector from "./components/CalendarButtonSelector/CalendarButtonSelector.vue";
 import CalendarDayHeader from "./components/CalendarHeader/CalendarDayHeader.vue";
 import CalendarMonthHeader from "./components/CalendarHeader/CalendarMonthHeader.vue";
 import CalendarWeekHeader from "./components/CalendarHeader/CalendarWeekHeader.vue";
@@ -117,32 +118,6 @@ const calendarMonthCellDays = computed(() => {
 const selectDate = (newSelectedDate: dayjs.Dayjs) => {
   selectedDate.value = newSelectedDate;
 };
-const selectPrevious = () => {
-  let newSelectedDate;
-  if (calendarMode.value === "MONTH")
-    newSelectedDate = dayjs(selectedDate.value).subtract(1, "month");
-  else if (calendarMode.value === "WEEK")
-    newSelectedDate = dayjs(selectedDate.value).subtract(1, "week");
-  else if (calendarMode.value === "DAY")
-    newSelectedDate = dayjs(selectedDate.value).subtract(1, "day");
-  else newSelectedDate = dayjs(selectedDate.value).subtract(0, "day");
-  selectDate(newSelectedDate);
-};
-const selectCurrent = () => {
-  const newSelectedDate = dayjs(today.value);
-  selectDate(newSelectedDate);
-};
-const selectNext = () => {
-  let newSelectedDate;
-  if (calendarMode.value === "MONTH")
-    newSelectedDate = dayjs(selectedDate.value).add(1, "month");
-  else if (calendarMode.value === "WEEK")
-    newSelectedDate = dayjs(selectedDate.value).add(1, "week");
-  else if (calendarMode.value === "DAY")
-    newSelectedDate = dayjs(selectedDate.value).add(1, "day");
-  else newSelectedDate = dayjs(selectedDate.value).subtract(0, "day");
-  selectDate(newSelectedDate);
-};
 </script>
 
 <template>
@@ -159,59 +134,7 @@ const selectNext = () => {
         </div>
 
         <!-- Right: Actions -->
-        <div class="grid grid-flow-col h-3:auto-cols-max justify-start h-3:justify-end gap-2">
-          <!-- Previous month button -->
-          <button
-            class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
-               justify-center bg-white border-slate-200 hover:border-slate-300 text-slate-500
-               shadow hover:text-slate-600
-               transition transition-colors disabled:cursor-not-allowed"
-            @click="selectPrevious()"
-          >
-            <span class="sr-only">Previous month</span><wbr>
-            <svg class="h-4 w-4 fill-current" viewBox="0 0 16 16">
-              <path d="M9.4 13.4l1.4-1.4-4-4 4-4-1.4-1.4L4 8z" />
-            </svg>
-          </button>
-          <!-- Today button -->
-          <button
-            class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
-               justify-center bg-white border-slate-200 hover:border-slate-300 text-slate-500
-               shadow hover:text-slate-600
-               transition transition-colors disabled:cursor-not-allowed"
-            @click="selectCurrent()"
-          >
-            <span>Today</span>
-          </button>
-          <!-- Next month button -->
-          <button
-            class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
-               justify-center bg-white border-slate-200 hover:border-slate-300 text-slate-500
-               shadow hover:text-slate-600
-               transition transition-colors disabled:cursor-not-allowed"
-            @click="selectNext()"
-          >
-            <span class="sr-only">Next month</span><wbr>
-            <svg class="h-4 w-4 fill-current" viewBox="0 0 16 16">
-              <path d="M6.6 13.4L5.2 12l4-4-4-4 1.4-1.4L12 8z" />
-            </svg>
-          </button>
-
-          <hr class="w-px h-full bg-gray-200 mx-1">
-
-          <!-- Create event button -->
-          <button
-            class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
-               justify-center hover:bg-indigo-500 bg-blue-500
-               shadow hover:text-slate-600
-               transition transition-colors disabled:cursor-not-allowed"
-          >
-            <svg class="w-4 h-4 fill-white opacity-50 flex-shrink-0" viewBox="0 0 16 16">
-              <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-            </svg>
-            <span class="hidden text-white sm:block ml-1">Create Event</span>
-          </button>
-        </div>
+        <CalendarButtonSelector :mode="calendarMode" :selected-date="selectedDate" @on-select-date="selectDate" />
       </div>
 
       <!-- Filters and view buttons -->
