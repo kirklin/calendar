@@ -4,7 +4,8 @@ import dayjs from "dayjs";
 import "dayjs/locale/zh-cn"; // 使用本地化语言
 import WeekOfYear from "dayjs/plugin/weekOfYear";
 import weekday from "dayjs/plugin/weekday";
-import CalendarButtonSelector from "./components/CalendarButtonSelector/CalendarButtonSelector.vue";
+import CalendarButtonSelector from "./components/CalendarAction/CalendarButtonSelector.vue";
+import CalendarChangeModeButtonGroup from "./components/CalendarAction/CalendarChangeModeButtonGroup.vue";
 import CalendarDayHeader from "./components/CalendarHeader/CalendarDayHeader.vue";
 import CalendarMonthHeader from "./components/CalendarHeader/CalendarMonthHeader.vue";
 import CalendarWeekHeader from "./components/CalendarHeader/CalendarWeekHeader.vue";
@@ -212,45 +213,7 @@ const selectDate = (newSelectedDate: dayjs.Dayjs) => {
 
         <!-- View buttons (requires custom integration) -->
         <div class="flex flex-no-wrap">
-          <button
-            class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
-               justify-center bg-white border-slate-100 hover:border-slate-200
-               shadow
-               transition transition-colors"
-            :class="{
-              'text-indigo-500': calendarMode === 'MONTH',
-              'text-gray-500': calendarMode !== 'MONTH',
-            }"
-            @click="changeMode('MONTH')"
-          >
-            Month
-          </button>
-          <button
-            class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
-               justify-center bg-white border-slate-100 hover:border-slate-200
-               shadow
-               transition transition-colors"
-            :class="{
-              'text-indigo-500': calendarMode === 'WEEK',
-              'text-gray-500': calendarMode !== 'WEEK',
-            }"
-            @click="changeMode('WEEK')"
-          >
-            Week
-          </button>
-          <button
-            class="inline-flex py-2 px-3 border-transparent rounded border items-center text-sm
-               justify-center bg-white border-slate-100 hover:border-slate-200
-               shadow
-               transition transition-colors"
-            :class="{
-              'text-indigo-500': calendarMode === 'DAY',
-              'text-gray-500': calendarMode !== 'DAY',
-            }"
-            @click="changeMode('DAY')"
-          >
-            Day
-          </button>
+          <CalendarChangeModeButtonGroup :mode="calendarMode" @on-change-mode="changeMode" />
         </div>
       </div>
 
