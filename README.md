@@ -3,6 +3,7 @@
 </div>
 
 <p align='center'>
+🍞📅 A Vue calendar Component
 </p>
 
 <div align='center'>
@@ -14,17 +15,7 @@
 - ⚡  [Vue 3](https://github.com/vuejs/vue-next), [Vite 2](https://github.com/vitejs/vite), [pnpm](https://pnpm.js.org/) - born with fastness
 - 💪 [Typescript](https://www.typescriptlang.org/) - of course! necessary
 - 🔥 Use the [new `<script setup>` syntax](https://github.com/vuejs/rfcs/pull/227)
-- 💡 [Vue Router v4](https://router.vuejs.org/zh/) - The official router for Vue.js
 - 🎨 [Tailwind CSS v3](https://tailwindcss.com/docs/configuration) - Rapidly build modern websites without ever leaving your HTML.
-- 🎉 [NProgress](https://github.com/rstacruz/nprogress) - Page loading progress feedback
-- 🍍 [State Management via Pinia](https://pinia.esm.dev/) - The Vue Store that you will enjoy using
-
-### First-party plugins needed for Tailwind UI:
-
-- [tailwindcss/forms](https://github.com/tailwindlabs/tailwindcss-forms)
-- [tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin)
-- [tailwindcss/line-clamp](https://github.com/tailwindlabs/tailwindcss-line-clamp)
-- [tailwindcss/aspect-ratio](https://github.com/tailwindlabs/tailwindcss-aspect-ratio)
 
 ### Coding Style
 
@@ -35,66 +26,22 @@
 - [VSCode](https://code.visualstudio.com/)
 - [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
 
+
+## ✨ Monthly, Weekly, Daily View 
+<img src='README.assets/month-view.png' alt='Calendar Month View' width='1384'/>
+<img src='README.assets/week-view.png' alt='Calendar Week View' width='1450'/>
+
+
 ### Performance
-<img src='README.assets/ViteBoot-Lighthouse.png' alt='Vite-Boot Outstanding performance' width='1851'/>
+<img src='README.assets/Lighthouse.png' alt='Outstanding performance' width='1928'/>
 
-
-## directory
-
-```
-# vite-boot
-├── LICENSE
-├── README.assets
-│   └── vite-vue-tailwind.png
-├── README.md
-├── README.zh-CN.md
-├── index.html
-├── node_modules
-├── package.json
-├── pnpm-lock.yaml
-├── postcss.config.js        # tailwind configuration
-├── public
-│   └── favicon.ico
-├── src
-│   ├── App.vue
-│   ├── api                  # api interface
-│   ├── assets               # static resource
-│   │   └── logo.png
-│   ├── components           # global component
-│   │   └── Navbar.vue       # Navbar component
-│   ├── env.d.ts
-│   ├── main.ts
-│   ├── router               # Vue router
-│   │   └── index.ts
-│   ├── settings.ts          # global configuration
-│   ├── store                # Pinia store
-│   │   ├── counter.ts
-│   │   └── index.ts
-│   ├── styles               # global style
-│   │   ├── main.scss
-│   │   ├── nprogress.scss   # nprogress style
-│   │   ├── tailwind.css
-│   │   └── variables.scss
-│   ├── utils                # global public method
-│   │   └── darkMode.ts
-│   └── views                # all pages
-│       └── Index.vue
-├── tailwind.config.js       # tailwind configuration
-├── tsconfig.json            # TS compilation configuration
-└── vite.config.ts           # Vite configuration
-
-```
 
 ## Try it now!
-
-### GitHub Template
-
-[Create a repo from this template on GitHub](https://github.com/kirklin/vite-boot/generate).
 
 ### Clone to local
 
 ```bash
-npx degit kirklin/vite-boot my-vite-app
+npx degit kirklin/calendar my-vite-app
 cd my-vite-app
 pnpm i
 ```

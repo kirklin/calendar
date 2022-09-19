@@ -3,7 +3,7 @@
 </div>
 
 <p align='center'>
-基于 vue 3.0,Tailwind 开发的日历组件
+🍞📅  基于 vue 3.0,Tailwind 开发的日历组件
 </p>
 
 ## 特性
@@ -13,15 +13,6 @@
 - 🔥 使用 [新的 `<script setup>` 语法](https://github.com/vuejs/rfcs/pull/227)
 - 💡 [Vue Router v4](https://router.vuejs.org/zh/) - Vue 路由系统
 - 🎨 [Tailwind CSS v3](https://tailwindcss.com/docs/configuration) - 快速建立现代网站，而不必离开 HTML。
-- 🎉 [NProgress](https://github.com/rstacruz/nprogress) - 页面加载进度反馈
-- 🍍 [使用 Pinia 的状态管理](https://pinia.esm.dev/)
-
-### 集成 Tailwind 插件:
-
-- [tailwindcss/forms](https://github.com/tailwindlabs/tailwindcss-forms)
-- [tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin)
-- [tailwindcss/line-clamp](https://github.com/tailwindlabs/tailwindcss-line-clamp)
-- [tailwindcss/aspect-ratio](https://github.com/tailwindlabs/tailwindcss-aspect-ratio)
 
 ### 编码风格
 
@@ -32,66 +23,19 @@
 - [VSCode](https://code.visualstudio.com/)
 - [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
 
+## ✨ 效果图（月视图、周视图）
+<img src='README.assets/month-view.png' alt='Calendar Month View' width='1384'/>
+<img src='README.assets/week-view.png' alt='Calendar Week View' width='1450'/>
+
 ### 性能
-<img src='README.assets/ViteBoot-Lighthouse.png' alt='Vite-Boot Outstanding performance' width='1851'/>
-
-
-## 项目结构
-
-```
-# vite-boot
-├── LICENSE
-├── README.assets
-│   └── vite-vue-tailwind.png
-├── README.md
-├── README.zh-CN.md
-├── index.html
-├── node_modules
-├── package.json
-├── pnpm-lock.yaml
-├── postcss.config.js        # tailwind 相关配置
-├── public
-│   └── favicon.ico
-├── src
-│   ├── App.vue              # 入口页面
-│   ├── api                  # api 接口
-│   ├── assets               # 静态资源
-│   │   └── logo.png
-│   ├── components           # 全局组件
-│   │   └── Navbar.vue       # 顶部导航栏组件
-│   ├── env.d.ts
-│   ├── main.ts              # 入口文件
-│   ├── router               # Vue router
-│   │   └── index.ts
-│   ├── settings.ts          # global configuration
-│   ├── store                # Pinia 状态管理
-│   │   ├── counter.ts
-│   │   └── index.ts
-│   ├── styles               # 全局样式
-│   │   ├── main.scss
-│   │   ├── nprogress.scss   # nprogress 样式（顶部加载样式）
-│   │   ├── tailwind.css     # tailwind 样式
-│   │   └── variables.scss   # SCSS全局变量
-│   ├── utils                # 项目公共方法
-│   │   └── darkMode.ts
-│   └── views                # 所有页面
-│       └── Index.vue        # APP首页
-├── tailwind.config.js       # tailwind 配置文件
-├── tsconfig.json            # TS 编译配置
-└── vite.config.ts           # Vite 配置文件
-
-```
+<img src='README.assets/Lighthouse.png' alt='Outstanding performance' width='1928'/>
 
 ## 快来试试吧！！
-
-### GitHub 模板
-
-[使用这个模板创建仓库](https://github.com/kirklin/vite-boot/generate).
 
 ### 克隆到本地
 
 ```bash
-npx degit kirklin/vite-boot my-vite-app
+npx degit kirklin/calendar my-vite-app
 cd my-vite-app
 pnpm i
 ```
