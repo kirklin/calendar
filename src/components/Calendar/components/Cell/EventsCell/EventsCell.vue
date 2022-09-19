@@ -6,6 +6,7 @@
 <script setup lang="ts">
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
+import { ref } from "vue";
 import type { PropType } from "vue";
 import type { modeType } from "../../../typings/types";
 import Cell from "../Cell.vue";
@@ -32,6 +33,9 @@ const props = defineProps({
     default: false,
   },
 });
+
+const showFooter = ref(true);
+
 interface dayData {
   date: string | number | Date | Dayjs | null | undefined
   isCurrentMonth: Boolean
@@ -56,17 +60,23 @@ const calCellStyle = (mode: modeType): String => {
   <Cell :override-class="calCellStyle(mode)">
     <div class="h-full flex flex-col justify-between">
       <!-- Events -->
-      <div class="flex-grow flex flex-col relative p-px p-1 overflow-hidden">
+      <div
+        class="flex-grow flex flex-col relative p-px p-1"
+        :class="{ 'overflow-hidden': showFooter === true, 'overflow-auto': showFooter === false }"
+      >
         <template v-for="event in getEvents(day)" :key="event.eventName">
           <CellEvent :data="event" />
         </template>
         <div class="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white pointer-events-none" aria-hidden="true" />
       </div>
       <!-- Month Cell footer -->
-      <div class="flex justify-between items-center p-px p-1">
+      <div v-if="showFooter" class="flex justify-between items-center p-px p-1">
         <!-- More button (if more than 2 events) -->
-        <template v-if="getEvents(day).length > 2">
-          <button class="text-xs leading-normal text-slate-500 font-medium whitespace-no-wrap text-center sm:py-px px-px sm:px-2 border border-slate-200 rounded">
+        <template v-if="getEvents(day).length > 2 && mode === 'MONTH'">
+          <button
+            class="text-xs leading-normal text-slate-500 font-medium whitespace-no-wrap text-center sm:py-px px-px sm:px-2 border border-slate-200 rounded"
+            @click="showFooter = false"
+          >
             <span class="hidden">+</span><span v-text="getEvents(day).length - 2" /> <span class="hidden md:inline">more</span>
           </button>
         </template>
