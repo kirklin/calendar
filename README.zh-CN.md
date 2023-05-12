@@ -3,7 +3,7 @@
 </div>
 
 <p align='center'>
-🍞📅  基于 vue 3.0,Tailwind 开发的日历组件
+🍞📅  基于 vue 3.0,unocss 开发的日历组件
 </p>
 
 ## 特性
@@ -12,7 +12,7 @@
 - 💪 [Typescript](https://www.typescriptlang.org/) - 强大的类型检查
 - 🔥 使用 [新的 `<script setup>` 语法](https://github.com/vuejs/rfcs/pull/227)
 - 💡 [Vue Router v4](https://router.vuejs.org/zh/) - Vue 路由系统
-- 🎨 [Tailwind CSS v3](https://tailwindcss.com/docs/configuration) - 快速建立现代网站，而不必离开 HTML。
+- 🎨 [UnoCSS](https://unocss.dev/) - The instant on-demand atomic CSS engine, providing a lightweight and fast way to style your app.
 
 ### 编码风格
 

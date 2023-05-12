@@ -2,6 +2,7 @@
 import dayjs, { Dayjs } from "dayjs";
 import type { PropType } from "vue";
 import type { modeType } from "../../typings/types";
+
 const props = defineProps({
   mode: {
     type: String as PropType<modeType>,
@@ -19,13 +20,15 @@ const selectDate = (newSelectedDate: Dayjs) => {
 };
 const selectPrevious = () => {
   let newSelectedDate;
-  if (props.mode === "MONTH")
+  if (props.mode === "MONTH") {
     newSelectedDate = dayjs(props.selectedDate).subtract(1, "month");
-  else if (props.mode === "WEEK")
+  } else if (props.mode === "WEEK") {
     newSelectedDate = dayjs(props.selectedDate).subtract(1, "week");
-  else if (props.mode === "DAY")
+  } else if (props.mode === "DAY") {
     newSelectedDate = dayjs(props.selectedDate).subtract(1, "day");
-  else newSelectedDate = dayjs(props.selectedDate).subtract(0, "day");
+  } else {
+    newSelectedDate = dayjs(props.selectedDate).subtract(0, "day");
+  }
   selectDate(newSelectedDate);
 };
 const selectCurrent = () => {
@@ -34,13 +37,15 @@ const selectCurrent = () => {
 };
 const selectNext = () => {
   let newSelectedDate;
-  if (props.mode === "MONTH")
+  if (props.mode === "MONTH") {
     newSelectedDate = dayjs(props.selectedDate).add(1, "month");
-  else if (props.mode === "WEEK")
+  } else if (props.mode === "WEEK") {
     newSelectedDate = dayjs(props.selectedDate).add(1, "week");
-  else if (props.mode === "DAY")
+  } else if (props.mode === "DAY") {
     newSelectedDate = dayjs(props.selectedDate).add(1, "day");
-  else newSelectedDate = dayjs(props.selectedDate).subtract(0, "day");
+  } else {
+    newSelectedDate = dayjs(props.selectedDate).subtract(0, "day");
+  }
   selectDate(newSelectedDate);
 };
 </script>

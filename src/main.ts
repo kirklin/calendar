@@ -1,20 +1,15 @@
 import { createApp } from "vue";
-// Vue Router
-import { createPinia } from "pinia";
-import index from "./router";
 
-import { registerStore } from "./store";
+// Vue Router
+import { router } from "./router";
+
 import App from "~/App.vue";
 
-import "~/styles/tailwind.css";
-import "~/styles/main.scss";
-import "~/styles/nprogress.scss";
+// reset css
+import "@kirklin/reset-css/kirklin.css";
+import "~/styles/main.css";
+import "uno.css";
 
 const app = createApp(App);
-
-app.use(createPinia());
-registerStore();
-
-app.use(index);
-
+app.use(router);
 app.mount("#app");

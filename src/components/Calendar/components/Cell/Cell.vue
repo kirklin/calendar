@@ -18,10 +18,11 @@ onMounted(() => {
 });
 const CellClass = ref();
 watchEffect(() => {
-  if (props.overrideClass)
+  if (props.overrideClass) {
     CellClass.value = props.overrideClass;
-  else
+  } else {
     CellClass.value = `h-20 sm:h-24 lg:h-32 ${props.compositeClass}`;
+  }
 });
 </script>
 

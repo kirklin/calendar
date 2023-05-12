@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
 import dayjs from "dayjs";
+
 import "dayjs/locale/zh-cn"; // 使用本地化语言
 import WeekOfYear from "dayjs/plugin/weekOfYear";
 import weekday from "dayjs/plugin/weekday";
@@ -12,6 +12,7 @@ import CalendarWeekHeader from "./components/CalendarHeader/CalendarWeekHeader.v
 import BlankCell from "./components/Cell/BlankCell.vue";
 import EventsCell from "./components/Cell/EventsCell/EventsCell.vue";
 import type { modeType } from "./typings/types";
+
 dayjs.locale("zh-cn");
 dayjs.extend(WeekOfYear);
 dayjs.extend(weekday);

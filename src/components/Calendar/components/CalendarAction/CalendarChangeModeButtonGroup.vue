@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { Dayjs } from "dayjs";
 import type { PropType } from "vue";
 import type { modeType } from "../../typings/types";
 
-const props = defineProps({
+defineProps({
   mode: {
     type: String as PropType<modeType>,
     default: "MONTH",

@@ -12,10 +12,10 @@
 
 ## Features
 
-- ⚡  [Vue 3](https://github.com/vuejs/vue-next), [Vite 2](https://github.com/vitejs/vite), [pnpm](https://pnpm.js.org/) - born with fastness
-- 💪 [Typescript](https://www.typescriptlang.org/) - of course! necessary
+- ⚡  [Lightning fast](https://github.com/kirklin/calendar#readme): Built with Vue 3, Vite, and pnpm 🔥
+- 💪 [Strongly typed](https://www.typescriptlang.org/): Uses TypeScript 💻
 - 🔥 Use the [new `<script setup>` syntax](https://github.com/vuejs/rfcs/pull/227)
-- 🎨 [Tailwind CSS v3](https://tailwindcss.com/docs/configuration) - Rapidly build modern websites without ever leaving your HTML.
+- 🎨 [UnoCSS](https://unocss.dev/) - The instant on-demand atomic CSS engine, providing a lightweight and fast way to style your app.
 
 ### Coding Style
 

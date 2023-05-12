@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useRouter } from "vue-router";
 const router = useRouter();
 const errorCode = ref<number>(404);
-const back = () => {
-  router.push({ name: "Home" });
-};
 </script>
 
 <template>
@@ -17,7 +12,7 @@ const back = () => {
         </h2>
         <p>We're sorry, something is not right, page not found!</p>
         <div class="card-actions justify-end">
-          <button class="btn btn-primary" @click="back">
+          <button class="btn-primary btn" @click="router.back()">
             Back !
           </button>
         </div>

@@ -12,7 +12,8 @@ import type { modeType } from "../../../typings/types";
 import Cell from "../Cell.vue";
 import CellEvent from "./Events/CellEvent.vue";
 import { events } from "./Events/data";
-const props = defineProps({
+
+defineProps({
   month: {
     type: String,
   },
@@ -37,8 +38,8 @@ const props = defineProps({
 const showFooter = ref(true);
 
 interface dayData {
-  date: string | number | Date | Dayjs | null | undefined
-  isCurrentMonth: Boolean
+  date: string | number | Date | Dayjs | null | undefined;
+  isCurrentMonth: Boolean;
 }
 const getEvents = (day: dayData) => {
   return events.filter((item) => {

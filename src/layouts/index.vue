@@ -2,9 +2,13 @@
 </script>
 
 <template>
-  <div class="font-chinese antialiased bg-gray-100">
+  <div class="font-chinese antialiased">
     <div class="min-h-screen">
       <RouterView />
     </div>
   </div>
 </template>
+
+<style scoped>
+
+</style>

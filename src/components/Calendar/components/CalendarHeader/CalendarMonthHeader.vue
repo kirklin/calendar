@@ -6,8 +6,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import dayjs from "dayjs";
+
 import "dayjs/locale/zh-cn"; // 使用本地化语言
 import LocaleData from "dayjs/plugin/localeData";
+
 dayjs.extend(LocaleData);
 const dayNames = ref(dayjs.weekdays());
 </script>
