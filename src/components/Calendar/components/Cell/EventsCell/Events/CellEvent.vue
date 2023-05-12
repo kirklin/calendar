@@ -4,8 +4,13 @@
 *  @createdTime: 2022-09-13 11:15
  -->
 <script setup lang="ts">
+import type { PropType } from "vue";
+import type { Event } from "../../../../typings/types";
+
 defineProps({
-  data: {},
+  data: {
+    type: Object as PropType<Event>,
+  },
 });
 </script>
 
@@ -13,11 +18,11 @@ defineProps({
   <button class="w-full text-left mb-1">
     <div
       class="px-2 py-px rounded overflow-hidden" :class="{
-        'bg-sky-400': data.eventColor === 'sky',
-        'bg-indigo-400': data.eventColor === 'indigo',
-        'bg-yellow-400': data.eventColor === 'yellow',
-        'bg-emerald-400': data.eventColor === 'emerald',
-        'bg-red-400': data.eventColor === 'red',
+        'bg-sky-400': data?.eventColor === 'sky',
+        'bg-indigo-400': data?.eventColor === 'indigo',
+        'bg-yellow-400': data?.eventColor === 'yellow',
+        'bg-emerald-400': data?.eventColor === 'emerald',
+        'bg-red-400': data?.eventColor === 'red',
       }"
     >
       <!-- Event name -->
@@ -25,11 +30,11 @@ defineProps({
       <!-- Event time -->
       <div class="text-xs text-white leading-normal uppercase truncate hidden sm:block">
         <!-- Start date -->
-        <template v-if="data.eventStart">
+        <template v-if="data?.eventStart">
           <span v-text="data.eventStart.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: 'numeric' })" />
         </template>
         <!-- End date -->
-        <template v-if="data.eventEnd">
+        <template v-if="data?.eventEnd">
           <span>
             - <span v-text="data.eventEnd.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: 'numeric' })" />
           </span>

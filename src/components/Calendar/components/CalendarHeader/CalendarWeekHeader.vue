@@ -17,7 +17,7 @@ const dayNames = ref(dayjs.weekdays());
 <template>
   <!-- Days of the week -->
   <div class="grid grid-cols-7 gap-px border-b border-slate-200">
-    <template v-for="(day, index) in dayNames" :key="index">
+    <template v-for="day in dayNames" :key="day">
       <div class="px-1 py-3">
         <div class="text-slate-500 text-h-3 font-medium text-center lg:hidden">
           {{ day.substring(0, 3) }}

@@ -15,7 +15,6 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "types": [
-      "vitest",
       "vite/client"
     ],
     "paths": {

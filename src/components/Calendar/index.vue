@@ -31,10 +31,6 @@ const year = computed(() => {
   return selectedDate.value.year();
 });
 
-const week = computed(() => {
-  return selectedDate.value.week();
-});
-
 // 一个月中的天数
 const daysInMonth = computed(() => {
   return dayjs(selectedDate.value).daysInMonth();
@@ -43,9 +39,7 @@ const daysInMonth = computed(() => {
 const changeMode = (mode: modeType) => {
   calendarMode.value = mode;
 };
-const getWeekday = (date: dayjs.ConfigType) => {
-  return dayjs(date).weekday();
-};
+
 const todayCellData = computed(() => {
   return {
     date: selectedDate.value.format("YYYY-MM-DD"),
@@ -111,10 +105,6 @@ const currentWeekDays = computed(() => {
       isCurrentMonth: selectedDate.value.day(index).month() === dayjs(today.value).month(),
     };
   });
-});
-
-const calendarMonthCellDays = computed(() => {
-  return [...previousMonthDays.value, ...currentMonthDays.value, ...nextMonthDays.value];
 });
 
 const selectDate = (newSelectedDate: dayjs.Dayjs) => {
@@ -226,7 +216,7 @@ const selectDate = (newSelectedDate: dayjs.Dayjs) => {
         <!--        Day cells -->
         <div
           class="grid gap-px bg-gray-200" :class="{
-            'grid-cols-7': calendarMode === 'MONTH' | calendarMode === 'WEEK',
+            'grid-cols-7': calendarMode === 'MONTH' || calendarMode === 'WEEK',
             'grid-cols-1': calendarMode === 'DAY',
           }"
         >

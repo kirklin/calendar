@@ -1,4 +1,6 @@
-export const events = [
+import type { Event } from "../../../../typings/types";
+
+export const events: Event[] = [
   // Previous month
   {
     eventStart: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 8, 3),
