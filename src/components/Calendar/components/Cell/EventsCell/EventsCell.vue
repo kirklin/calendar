@@ -8,7 +8,7 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { ref } from "vue";
 import type { PropType } from "vue";
-import type { modeType } from "../../../typings/types";
+import type { EventDay, modeType } from "../../../typings/types";
 import Cell from "../Cell.vue";
 import CellEvent from "./Events/CellEvent.vue";
 import { events } from "./Events/data";
@@ -22,7 +22,8 @@ defineProps({
     default: 2021,
   },
   day: {
-    type: Object,
+    type: Object as PropType<EventDay>,
+    required: true,
   },
   mode: {
     type: String as PropType<modeType>,
@@ -37,23 +38,28 @@ defineProps({
 
 const showFooter = ref(true);
 
-interface dayData {
+interface DayData {
   date: string | number | Date | Dayjs | null | undefined;
-  isCurrentMonth: Boolean;
+  isCurrentMonth: boolean;
 }
-const getEvents = (day: dayData) => {
+
+const getEvents = (day: DayData) => {
   return events.filter((item) => {
     return dayjs(item.eventStart).isSame(dayjs(day.date), "day");
   });
 };
 
-const calCellStyle = (mode: modeType): String => {
+const calCellStyle = (mode: modeType): string => {
   switch (mode) {
-    case "MONTH": return "h-20 sm:h-24 lg:h-32 bg-white overflow-hidden";
-    case "WEEK": return "h-60 sm:h-72 lg:h-96 bg-white overflow-hidden";
-    case "DAY": return "h-60 sm:h-72 lg:h-96 bg-white overflow-hidden";
+    case "MONTH":
+      return "h-20 sm:h-24 lg:h-32 bg-white overflow-hidden";
+    case "WEEK":
+      return "h-60 sm:h-72 lg:h-96 bg-white overflow-hidden";
+    case "DAY":
+      return "h-60 sm:h-72 lg:h-96 bg-white overflow-hidden";
+    default:
+      return "";
   }
-  return "";
 };
 </script>
 
@@ -82,7 +88,7 @@ const calCellStyle = (mode: modeType): String => {
           </button>
         </template>
         <!-- Day number -->
-        <button class="inline-flex ml-auto oi so items-center justify-center text-xs leading-normal sm:text-sm  font-medium text-center rounded-full xs" :class="{ 'text-indigo-500': isToday }" v-text="dayjs(day.date).date()" />
+        <button class="inline-flex ml-auto oi so items-center justify-center text-xs leading-normal sm:text-sm font-medium text-center rounded-full xs" :class="{ 'text-indigo-500': isToday }" v-text="dayjs(day.date).date()" />
       </div>
     </div>
   </Cell>

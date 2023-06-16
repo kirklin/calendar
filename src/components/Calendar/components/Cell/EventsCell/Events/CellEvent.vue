@@ -10,6 +10,7 @@ import type { Event } from "../../../../typings/types";
 defineProps({
   data: {
     type: Object as PropType<Event>,
+    default: undefined,
   },
 });
 </script>
@@ -17,27 +18,27 @@ defineProps({
 <template>
   <button class="w-full text-left mb-1">
     <div
-      class="px-2 py-px rounded overflow-hidden" :class="{
-        'bg-sky-400': data?.eventColor === 'sky',
-        'bg-indigo-400': data?.eventColor === 'indigo',
-        'bg-yellow-400': data?.eventColor === 'yellow',
-        'bg-emerald-400': data?.eventColor === 'emerald',
-        'bg-red-400': data?.eventColor === 'red',
-      }"
+      class="px-2 py-px rounded overflow-hidden" :class="[
+        {
+          'bg-sky-400': data?.eventColor === 'sky',
+          'bg-indigo-400': data?.eventColor === 'indigo',
+          'bg-yellow-400': data?.eventColor === 'yellow',
+          'bg-emerald-400': data?.eventColor === 'emerald',
+          'bg-red-400': data?.eventColor === 'red',
+        },
+      ]"
     >
       <!-- Event name -->
-      <div class="text-xs text-white leading-normal font-semibold truncate" v-text="data.eventName" />
-      <!-- Event time -->
-      <div class="text-xs text-white leading-normal uppercase truncate hidden sm:block">
+      <div class="text-xs text-white font-semibold truncate leading-tight" v-text="data?.eventName" />
+      <div class="text-xs text-white uppercase hidden sm:block truncate">
         <!-- Start date -->
         <template v-if="data?.eventStart">
           <span v-text="data.eventStart.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: 'numeric' })" />
         </template>
         <!-- End date -->
         <template v-if="data?.eventEnd">
-          <span>
-            - <span v-text="data.eventEnd.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: 'numeric' })" />
-          </span>
+          <span> - </span>
+          <span v-text="data.eventEnd?.toLocaleTimeString([], { hour12: true, hour: 'numeric', minute: 'numeric' })" />
         </template>
       </div>
     </div>

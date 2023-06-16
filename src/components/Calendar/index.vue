@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
+import { computed, ref } from "vue";
 
 import "dayjs/locale/zh-cn"; // 使用本地化语言
 import WeekOfYear from "dayjs/plugin/weekOfYear";
@@ -13,33 +14,28 @@ import BlankCell from "./components/Cell/BlankCell.vue";
 import EventsCell from "./components/Cell/EventsCell/EventsCell.vue";
 import type { modeType } from "./typings/types";
 
+defineOptions({
+  name: "Calendar",
+});
+
 dayjs.locale("zh-cn");
 dayjs.extend(WeekOfYear);
 dayjs.extend(weekday);
-const calendarMode = ref<modeType>("MONTH");
 
 const selectedDate = ref(dayjs());
+const calendarMode = ref<modeType>("MONTH");
 const today = computed(() => {
   return dayjs().format("YYYY-MM-DD");
 });
-
 const month = computed(() => {
   return selectedDate.value.format("M");
 });
-
 const year = computed(() => {
   return selectedDate.value.year();
 });
-
-// 一个月中的天数
 const daysInMonth = computed(() => {
   return dayjs(selectedDate.value).daysInMonth();
 });
-
-const changeMode = (mode: modeType) => {
-  calendarMode.value = mode;
-};
-
 const todayCellData = computed(() => {
   return {
     date: selectedDate.value.format("YYYY-MM-DD"),
@@ -48,18 +44,18 @@ const todayCellData = computed(() => {
 });
 const currentMonthDays = computed(() => {
   return [...Array(daysInMonth.value)].map((day, index) => {
+    const date = dayjs(`${year.value}-${month.value}-${index + 1}`);
     return {
-      date: dayjs(`${year.value}-${month.value}-${index + 1}`).format(
-        "YYYY-MM-DD",
-      ),
+      date: date.format("YYYY-MM-DD"),
       isCurrentMonth: true,
     };
   });
 });
+
 const previousMonthDays = computed(() => {
-  // 获取第一天是星期几(从0开始)
-  const firstDayOfTheMonthWeekday = dayjs(currentMonthDays.value[0].date).day();
-  // 上一个月
+  const firstDayOfTheMonthWeekday = dayjs(
+    `${year.value}-${month.value}-01`,
+  ).day();
   const previousMonth = dayjs(`${year.value}-${month.value}-01`).subtract(
     1,
     "month",
@@ -70,29 +66,32 @@ const previousMonthDays = computed(() => {
     .subtract(firstDayOfTheMonthWeekday, "day")
     .date();
 
-  return [...Array(firstDayOfTheMonthWeekday)].map(
-    (day, index) => {
-      return {
-        date: dayjs(
-              `${previousMonth.year()}-${previousMonth.month()
-              + 1}-${previousMonthLastMondayDayOfMonth + index}`,
-        ).format("YYYY-MM-DD"),
-        isCurrentMonth: false,
-      };
-    },
-  );
+  return [...Array(firstDayOfTheMonthWeekday)].map((day, index) => {
+    const date = dayjs(
+      `${previousMonth.year()}-${previousMonth.month() + 1}-${
+        previousMonthLastMondayDayOfMonth + index
+      }`,
+    );
+    return {
+      date: date.format("YYYY-MM-DD"),
+      isCurrentMonth: false,
+    };
+  });
 });
 
 const nextMonthDays = computed(() => {
-  const lastDayOfTheMonthWeekday = dayjs(currentMonthDays.value[currentMonthDays.value.length - 1].date).day();
+  const lastDayOfTheMonthWeekday = dayjs(
+    currentMonthDays.value[currentMonthDays.value.length - 1].date,
+  ).day();
   const nextMonth = dayjs(`${year.value}-${month.value}-01`).add(1, "month");
   const visibleNumberOfDaysFromNextMonth = 6 - lastDayOfTheMonthWeekday;
 
   return [...Array(visibleNumberOfDaysFromNextMonth)].map((day, index) => {
+    const date = dayjs(
+      `${nextMonth.year()}-${nextMonth.month() + 1}-${index + 1}`,
+    );
     return {
-      date: dayjs(
-          `${nextMonth.year()}-${nextMonth.month() + 1}-${index + 1}`,
-      ).format("YYYY-MM-DD"),
+      date: date.format("YYYY-MM-DD"),
       isCurrentMonth: false,
     };
   });
@@ -100,12 +99,17 @@ const nextMonthDays = computed(() => {
 
 const currentWeekDays = computed(() => {
   return [...Array(7)].map((day, index) => {
+    const date = selectedDate.value.day(index);
     return {
-      date: selectedDate.value.day(index).format("YYYY-MM-DD"),
-      isCurrentMonth: selectedDate.value.day(index).month() === dayjs(today.value).month(),
+      date: date.format("YYYY-MM-DD"),
+      isCurrentMonth: date.month() === dayjs(today.value).month(),
     };
   });
 });
+
+const changeMode = (mode: modeType) => {
+  calendarMode.value = mode;
+};
 
 const selectDate = (newSelectedDate: dayjs.Dayjs) => {
   selectedDate.value = newSelectedDate;
@@ -215,7 +219,8 @@ const selectDate = (newSelectedDate: dayjs.Dayjs) => {
         <CalendarDayHeader v-if="calendarMode === 'DAY'" :day="selectedDate" />
         <!--        Day cells -->
         <div
-          class="grid gap-px bg-gray-200" :class="{
+          class="grid gap-px bg-gray-200"
+          :class="{
             'grid-cols-7': calendarMode === 'MONTH' || calendarMode === 'WEEK',
             'grid-cols-1': calendarMode === 'DAY',
           }"

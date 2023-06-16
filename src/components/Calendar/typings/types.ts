@@ -13,6 +13,11 @@ export interface Event {
 export type localType = "en" | "zh" | "us" | "es" | "pt-br" | "ja" | "ko"
 | "fr" | "it" | "ru" | "sv" | "no" | "no-nn" | "de" | "vi" | "ua" | "th" | "hu";
 
+export interface EventDay {
+  date: string;
+  isCurrentMonth: boolean;
+}
+
 export interface langType {
   dayNames: string[];
   monthNames: string[];
