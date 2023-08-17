@@ -3,8 +3,6 @@ import { defineConfig } from "vite";
 import Vue from "@vitejs/plugin-vue";
 import Components from "unplugin-vue-components/vite";
 import AutoImport from "unplugin-auto-import/vite";
-import Inspect from "vite-plugin-inspect";
-import Inspector from "vite-plugin-vue-inspector";
 
 // vite.config.ts
 import UnoCss from "unocss/vite";
@@ -25,7 +23,6 @@ export default defineConfig({
       imports: [
         "vue",
         "vue-router",
-        "@vueuse/core",
       ],
       dts: "types/auto-imports.d.ts",
       dirs: [
@@ -41,15 +38,6 @@ export default defineConfig({
       include: [/\.vue$/, /\.vue\?vue/],
       dts: "types/components.d.ts",
       exclude: [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/, /[\\/]\.nuxt[\\/]/],
-    }),
-
-    // https://github.com/antfu/vite-plugin-inspect
-    // Visit http://localhost:3333/__inspect/ to see the inspector
-    Inspect(),
-
-    // https://github.com/webfansplz/vite-plugin-vue-inspector
-    Inspector({
-      toggleButtonVisibility: "never",
     }),
 
     // https://github.com/unocss/unocss
