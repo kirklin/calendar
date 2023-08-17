@@ -7,18 +7,19 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    BlankCell: typeof import('./../src/components/Calendar/components/Cell/BlankCell.vue')['default']
-    Calendar: typeof import('./../src/components/Calendar/index.vue')['default']
-    CalendarButtonSelector: typeof import('./../src/components/Calendar/components/CalendarAction/CalendarButtonSelector.vue')['default']
-    CalendarChangeModeButtonGroup: typeof import('./../src/components/Calendar/components/CalendarAction/CalendarChangeModeButtonGroup.vue')['default']
-    CalendarDayHeader: typeof import('./../src/components/Calendar/components/CalendarHeader/CalendarDayHeader.vue')['default']
-    CalendarMonthHeader: typeof import('./../src/components/Calendar/components/CalendarHeader/CalendarMonthHeader.vue')['default']
-    CalendarWeekHeader: typeof import('./../src/components/Calendar/components/CalendarHeader/CalendarWeekHeader.vue')['default']
-    Cell: typeof import('./../src/components/Calendar/components/Cell/Cell.vue')['default']
-    CellEvent: typeof import('./../src/components/Calendar/components/Cell/EventsCell/Events/CellEvent.vue')['default']
-    EventsCell: typeof import('./../src/components/Calendar/components/Cell/EventsCell/EventsCell.vue')['default']
+    BlankCell: typeof import('./../src/components/Calendar/src/components/Cell/BlankCell.vue')['default']
+    Calendar: typeof import('./../src/components/Calendar/src/Calendar.vue')['default']
+    CalendarButtonSelector: typeof import('./../src/components/Calendar/src/components/CalendarAction/CalendarButtonSelector.vue')['default']
+    CalendarChangeModeButtonGroup: typeof import('./../src/components/Calendar/src/components/CalendarAction/CalendarChangeModeButtonGroup.vue')['default']
+    CalendarDayHeader: typeof import('./../src/components/Calendar/src/components/CalendarHeader/CalendarDayHeader.vue')['default']
+    CalendarMonthHeader: typeof import('./../src/components/Calendar/src/components/CalendarHeader/CalendarMonthHeader.vue')['default']
+    CalendarWeekHeader: typeof import('./../src/components/Calendar/src/components/CalendarHeader/CalendarWeekHeader.vue')['default']
+    Cell: typeof import('./../src/components/Calendar/src/components/Cell/Cell.vue')['default']
+    CellEvent: typeof import('./../src/components/Calendar/src/components/Cell/EventsCell/Events/CellEvent.vue')['default']
+    EventsCell: typeof import('./../src/components/Calendar/src/components/Cell/EventsCell/EventsCell.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Src: typeof import('./../src/components/Calendar/src/index.vue')['default']
     UnoCSSIconButton: typeof import('./../src/components/Icon/UnoCSSIconButton.vue')['default']
   }
 }

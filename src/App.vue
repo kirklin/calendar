@@ -4,7 +4,7 @@
 <template>
   <div class="font-chinese antialiased bg-gray-100">
     <div class="min-h-screen">
-      <RouterView />
+      <Calendar />
     </div>
   </div>
 </template>
