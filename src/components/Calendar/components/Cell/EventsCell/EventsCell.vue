@@ -74,7 +74,7 @@ const calCellStyle = (mode: modeType): string => {
         <template v-for="event in getEvents(day)" :key="event.eventName">
           <CellEvent :data="event" />
         </template>
-        <div class="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white pointer-events-none" aria-hidden="true" />
+        <div v-if="showFooter" class="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white pointer-events-none" aria-hidden="true" />
       </div>
       <!-- Month Cell footer -->
       <div v-if="showFooter" class="flex justify-between items-center p-px p-1">
